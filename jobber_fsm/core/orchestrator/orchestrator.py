@@ -87,6 +87,11 @@ class Orchestrator:
 
         self._print_final_response()
         return self.memory
+    
+    async def start_auto(self) -> dict:
+        """Run the FSM until it reaches State.DONE and return the final memory."""
+        await self.start(initial_command="start")   # bypass REPL
+        return self.memory  # or whatever structure you store results in
 
     async def _handle_state(self):
         current_state = self.memory.current_state
