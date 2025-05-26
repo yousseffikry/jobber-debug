@@ -55,7 +55,7 @@ class BrowserNavAgent(BaseAgent):
         logger.debug("BrowserNavAgent: executing task -> %s", task_text)
 
         llm_reply: BrowserNavOutput = await self.run(
-            BrowserNavInput(instruction=task_text)
+            BrowserNavInput(task=task_text)
         )
 
         #

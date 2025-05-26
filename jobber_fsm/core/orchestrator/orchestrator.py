@@ -31,6 +31,22 @@ class Orchestrator:
         self.playwright_manager = PlaywrightManager()
         self.eval_mode = eval_mode
         self.shutdown_event = asyncio.Event()
+    
+    async def _bootstrap(self) -> None:
+        """
+        Bring the FSM + browser up **without** entering the interactive
+        input-loop.  Upstream Jobber calls the same thing from `start()`
+        before dropping into `while True: input(...)`.
+        """
+        if getattr(self, "_booted", False):
+            return                      # idempotent
+
+        # ---- create the Playwright manager + context -------------
+        await self.playwright_manager.async_initialize(eval_mode=False)
+
+        # ---- whatever the original `start()` does *before* the REPL
+        self.current_state = list(self.state_to_agent_map.keys())[0]
+        self._booted = True
 
     async def start(self):
         print("Starting orchestrator")

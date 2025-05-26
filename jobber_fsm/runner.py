@@ -15,6 +15,7 @@ from jobber_fsm.core.agent.planner_agent     import PlannerAgent
 from jobber_fsm.core.models.models           import State
 from jobber_fsm.core.orchestrator.orchestrator import Orchestrator
 from jobber_fsm.core.memory import ltm
+from jobber_fsm.core.models.models import PlannerInput
 
 
 def _cli() -> argparse.Namespace:
@@ -37,31 +38,28 @@ async def _main() -> None:
         profile = json.load(f)
 
     # ---------- stash data in memory for agents ----------
-    #   you can define any helper you like; here's a simple one:
     ltm.set_job_apply_context(url=args.url, profile=profile)
 
-    # ---------- spin up FSM ----------
-    state_map = {
-        # tell the planner we want full auto
-        State.PLAN  : PlannerAgent(auto_mode=True),
+    # ---------- build agents ----------
+    planner  = PlannerAgent(auto_mode=True)
+    executor = BrowserNavAgent(planner, auto_mode=True)
 
-        # executor; no extra kwargs
-        State.BROWSE: BrowserNavAgent(auto_mode=True),
+    state_map = {
+        State.PLAN:   planner,
+        State.BROWSE: executor,
     }
 
     orch = Orchestrator(
         state_to_agent_map=state_map,
-        auto_mode=True,
-        dry_run=args.dry_run,
-        headless=args.headless,      # <- Orchestrator/PlaywrightManager handles this
+        # eval_mode=True,   # optional temp-profile browser
     )
-    await orch.start()
+    await orch._bootstrap()
+    await planner.process_query("start")
 
 
-# --------- allow both `python -m jobber_fsm.runner` and console-script -----
-def entrypoint() -> None:      # used by poetry console-script
+def entrypoint() -> None:
     asyncio.run(_main())
 
 
-if __name__ == "__main__":     # used when you run with -m
+if __name__ == "__main__":
     asyncio.run(_main())
