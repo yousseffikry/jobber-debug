@@ -1,3 +1,17 @@
+[project]
+name = "jobber-fsm"
+version = "0.1.0"
+description = "Fully-automatic job-application agent"
+requires-python = ">=3.8.1,<4.0"
+
+authors = [
+  { name = "Youssef Fikry", email = "you@example.com" }
+]
+
+# console-script entry point
+[project.scripts]
+jobber-apply = "jobber_fsm.runner:entrypoint"
+
 [tool.poetry]
 name = "jobber"
 version = "0.1.0"

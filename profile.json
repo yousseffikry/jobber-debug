@@ -1,0 +1,16 @@
+{
+  "first_name": "Alice",
+  "last_name": "Ng",
+  "email": "alice@example.com",
+  "phone": "+1-555-123-4567",
+  "linkedin_profile": "https://linkedin.com/in/aliceng",
+  "date_of_birth": "1997-04-03",
+  "gender": "Female",
+  "race_ethnicity": "Asian",
+  "veteran_status": "No",
+  "disability_status": "No",
+  "visa_countries": [
+    {"code": "US", "name": "United States", "requiresSponsorship": false}
+  ],
+  "resume_path": "/absolute/path/AliceNgResume.pdf"
+}

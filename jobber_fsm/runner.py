@@ -1,120 +1,62 @@
 # jobber_fsm/runner.py
 """
-Programmatic entry-point for autonomous job applications.
+Un-attended application runner for Jobber-FSM.
 
-Usage
------
-from jobber_fsm.runner import apply_for_job
-
-result: dict = await apply_for_job(
-        url="https://jobs.acme.com/apply?id=123",
-        profile={
-            "first_name": "Ava",
-            "last_name": "Chen",
-            "email": "ava@example.com",
-            "phone": "555-1234",
-            "password": "TempPass!23",
-            "visa_status": "US Citizen",
-            "gender": "Female",
-            "race_ethnicity": "Asian",
-            "veteran_status": "No",
-            "disability_status": "No",
-            "date_of_birth": "1995-04-12",
-            "linkedin_profile": "https://linkedin.com/in/ava-chen",
-        },
-        resume_path="/tmp/ava_cv.pdf",
-        headless=True,          # cloud friendly
-        eval_mode=False,        # Set True if you want an isolated temp profile
-)
+Example:
+    poetry run jobber-apply \\
+        --url https://boards.greenhouse.io/openai/jobs/1234567 \\
+        --profile ./profile.json \\
+        --headless --dry-run
 """
 from __future__ import annotations
-
-import asyncio
-from pathlib import Path
-from types import SimpleNamespace
-from typing import Dict, Any
+import argparse, asyncio, json, pathlib, sys
 
 from jobber_fsm.core.agent.browser_nav_agent import BrowserNavAgent
-from jobber_fsm.core.agent.planner_agent import PlannerAgent
-from jobber_fsm.core.models.models import State
+from jobber_fsm.core.agent.planner_agent     import PlannerAgent
+from jobber_fsm.core.models.models           import State
 from jobber_fsm.core.orchestrator.orchestrator import Orchestrator
+from jobber_fsm.core.memory import ltm
 
 
-def _build_namespace(url: str, profile: Dict[str, Any], resume_path: str) -> SimpleNamespace:
-    """
-    Convert keyword arguments into the same object argparse would produce
-    in the CLI version.
-    """
-    ns = SimpleNamespace()
-    # mandatory
-    ns.url = url
-    ns.first_name = profile.get("first_name")
-    ns.last_name = profile.get("last_name")
-    ns.email = profile.get("email")
-    ns.phone = profile.get("phone")
-    ns.resume = Path(resume_path).expanduser().as_posix()
-
-    # optional / extended
-    ns.password = profile.get("password") or "Temp123!Jobber"
-    ns.visa_status = profile.get("visa_status")
-    ns.gender = profile.get("gender")
-    ns.race_ethnicity = profile.get("race_ethnicity")
-    ns.veteran_status = profile.get("veteran_status")
-    ns.disability_status = profile.get("disability_status")
-    ns.date_of_birth = profile.get("date_of_birth")
-    ns.linkedin_profile = profile.get("linkedin_profile")
-
-    # runtime flags
-    ns.auto = True          # <-- skip the interactive shell
-    ns.headless = True      # caller can override via kwargs
-    ns.eval_mode = False
-
-    return ns
+def _cli() -> argparse.Namespace:
+    p = argparse.ArgumentParser()
+    p.add_argument("--url",     required=True, help="Job apply link")
+    p.add_argument("--profile", required=True, help="Path to JSON profile file")
+    p.add_argument("--headless", action="store_true")
+    p.add_argument("--dry-run",  action="store_true")
+    return p.parse_args()
 
 
-async def _run_orchestrator(arg_ns: SimpleNamespace, headless: bool, eval_mode: bool) -> Dict[str, Any]:
-    """Spin up the FSM exactly like `__main__.py`, but fully automated."""
-    # Overwrite runtime toggles if caller passed them
-    arg_ns.headless = headless
-    arg_ns.eval_mode = eval_mode
+async def _main() -> None:
+    args = _cli()
 
-    # Wire up the state machine
-    state_to_agent_map = {
-        State.PLAN: PlannerAgent(arg_ns),      # pass namespace so agent can read profile
-        State.BROWSE: BrowserNavAgent(arg_ns),
+    # ---------- load profile ----------
+    profile_path = pathlib.Path(args.profile).expanduser()
+    if not profile_path.is_file():
+        sys.exit(f"[runner] profile file not found: {profile_path}")
+    with profile_path.open() as f:
+        profile = json.load(f)
+
+    # ---------- stash data in memory for agents ----------
+    #   you can define any helper you like; here's a simple one:
+    ltm.set_job_apply_context(url=args.url, profile=profile)
+
+    # ---------- spin up FSM ----------
+    state_map = {
+        State.PLAN  : PlannerAgent(auto_mode=True),
+        State.BROWSE: BrowserNavAgent(
+            auto_mode=True, headless=args.headless, dry_run=args.dry_run
+        ),
     }
+    orch = Orchestrator(state_to_agent_map=state_map,
+                        auto_mode=True, dry_run=args.dry_run)
+    await orch.start()
 
-    orchestrator = Orchestrator(state_to_agent_map=state_to_agent_map)
-    result_dict: Dict[str, Any] = await orchestrator.start_auto()   # you’ll add start_auto() below
-    return result_dict
+
+# --------- allow both `python -m jobber_fsm.runner` and console-script -----
+def entrypoint() -> None:      # used by poetry console-script
+    asyncio.run(_main())
 
 
-async def apply_for_job(
-    url: str,
-    profile: Dict[str, Any],
-    resume_path: str,
-    *,
-    headless: bool = True,
-    eval_mode: bool = False,
-) -> Dict[str, Any]:
-    """
-    High-level coroutine that your FastAPI endpoint can `await`.
-
-    Returns
-    -------
-    Dictionary with keys like
-        {
-          "success": True,
-          "message": "Application submitted",
-          "confirmation_url": "...",
-          "steps": [...]
-        }
-    or an error description.
-    """
-    ns = _build_namespace(url, profile, resume_path)
-
-    try:
-        result: Dict[str, Any] = await _run_orchestrator(ns, headless, eval_mode)
-        return {"success": True, **result}
-    except Exception as exc:
-        return {"success": False, "message": str(exc)}
+if __name__ == "__main__":     # used when you run with -m
+    asyncio.run(_main())
