@@ -1,4 +1,3 @@
-# jobber_fsm/runner.py
 """
 Un-attended application runner for Jobber-FSM.
 
@@ -43,13 +42,19 @@ async def _main() -> None:
 
     # ---------- spin up FSM ----------
     state_map = {
+        # tell the planner we want full auto
         State.PLAN  : PlannerAgent(auto_mode=True),
-        State.BROWSE: BrowserNavAgent(
-            auto_mode=True, headless=args.headless, dry_run=args.dry_run
-        ),
+
+        # executor; no extra kwargs
+        State.BROWSE: BrowserNavAgent(auto_mode=True),
     }
-    orch = Orchestrator(state_to_agent_map=state_map,
-                        auto_mode=True, dry_run=args.dry_run)
+
+    orch = Orchestrator(
+        state_to_agent_map=state_map,
+        auto_mode=True,
+        dry_run=args.dry_run,
+        headless=args.headless,      # <- Orchestrator/PlaywrightManager handles this
+    )
     await orch.start()
 
 
