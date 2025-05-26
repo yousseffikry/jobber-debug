@@ -1,6 +1,24 @@
-from pathlib import Path
-from dotenv import load_dotenv
+"""
+jobber_fsm package initialisation.
 
-repo_root = Path(__file__).resolve().parents[2]
-print("DEBUG – loading", repo_root / ".env")   # add this line temporarily
-load_dotenv(repo_root / ".env", override=False)
+Loads environment variables (OPENAI_API_KEY, etc.) **before** any sub-modules
+import `openai` or other SDKs, so credentials are present globally.
+"""
+
+# ---------------------------------------------------------------------------
+# 1. Load .env once, with override=True, via the helper module
+# ---------------------------------------------------------------------------
+
+from ._env import *          # noqa  (side-effect: loads .env)
+
+# ---------------------------------------------------------------------------
+# 2. Optional package metadata
+# ---------------------------------------------------------------------------
+
+__all__ = []                 # populate as needed
+
+try:
+    from importlib.metadata import version
+    __version__ = version(__name__)
+except Exception:
+    __version__ = "0.0.0"

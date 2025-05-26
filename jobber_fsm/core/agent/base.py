@@ -119,9 +119,12 @@ class BaseAgent:
         function_name = tool_call.function.name
         function_to_call = self.executable_functions_list[function_name]
         function_args = json.loads(tool_call.function.arguments)
+
         try:
+            # ← run the tool
             function_response = await function_to_call(**function_args)
-            # print(function_response)
+
+            # ← hand the result back to the LLM
             self.messages.append(
                 {
                     "tool_call_id": tool_call.id,
@@ -130,16 +133,17 @@ class BaseAgent:
                     "content": str(function_response),
                 }
             )
+
         except Exception as e:
-            logger.info(f"Error occurred calling the tool {function_name}: {str(e)}")
+            # log & return the exception string instead of crashing
+            logger.warning(f"[Tool Error] {function_name}: {e}")
+
             self.messages.append(
                 {
                     "tool_call_id": tool_call.id,
                     "role": "tool",
                     "name": function_name,
-                    "content": str(
-                        "The tool responded with an error, please try again with a different tool or modify the parameters of the tool",
-                        function_response,
-                    ),
+                    "content": f"The tool raised an error: {e}",
                 }
             )
+

@@ -185,10 +185,24 @@ class PlaywrightManager:
                     no_viewport=True,
                 )
             else:
-                browser = await PlaywrightManager._playwright.chromium.connect_over_cdp(
-                    "http://localhost:9222"
-                )
-                PlaywrightManager._browser_context = browser.contexts[0]
+                try:
+                    # Attempt to reuse a locally-running Chrome started with
+                    # --remote-debugging-port=9222
+                    browser = (
+                        await PlaywrightManager._playwright.chromium.connect_over_cdp(
+                            "http://localhost:9222", timeout=3_000
+                        )
+                    )
+                    PlaywrightManager._browser_context = browser.contexts[0]
+                except Exception:
+                    # Port 9222 not listening — launch our own headless instance
+                    browser = await PlaywrightManager._playwright.chromium.launch(
+                        headless=True,
+                        args=["--no-sandbox"],
+                    )
+                    PlaywrightManager._browser_context = await browser.new_context(
+                        no_viewport=True
+                    )
 
             # Additional step to modify the navigator.webdriver property
             pages = PlaywrightManager._browser_context.pages
