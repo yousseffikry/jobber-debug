@@ -7,8 +7,9 @@ from typing_extensions import Annotated
 
 from jobber_fsm.core.web_driver.playwright import PlaywrightManager
 from jobber_fsm.utils.cli_helper import answer_questions_over_cli
+from jobber_fsm.core.skills.dry_run import maybe_skip_action
 
-
+@maybe_skip_action
 async def get_user_input(
     questions: Annotated[
         List[str], "List of questions to ask the user each one represented as a string"

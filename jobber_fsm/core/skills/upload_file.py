@@ -2,8 +2,9 @@ from typing_extensions import Annotated
 
 from jobber_fsm.core.web_driver.playwright import PlaywrightManager
 from jobber_fsm.utils.logger import logger
+from jobber_fsm.core.skills.dry_run import maybe_skip_action
 
-
+@maybe_skip_action
 async def upload_file(
     # label: Annotated[str, "Label for the element on which upload should happen"],
     selector: Annotated[

@@ -10,8 +10,9 @@ from jobber_fsm.core.web_driver.playwright import PlaywrightManager
 from jobber_fsm.utils.dom_helper import wait_for_non_loading_dom_state
 from jobber_fsm.utils.get_detailed_accessibility_tree import do_get_accessibility_info
 from jobber_fsm.utils.logger import logger
+from jobber_fsm.core.skills.dry_run import maybe_skip_action
 
-
+@maybe_skip_action
 async def get_dom_with_content_type(
     content_type: Annotated[
         str,

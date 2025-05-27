@@ -8,8 +8,9 @@ from jobber_fsm.config.config import PROJECT_TEMP_PATH
 from jobber_fsm.core.web_driver.playwright import PlaywrightManager
 from jobber_fsm.utils.logger import logger
 from jobber_fsm.utils.message_type import MessageType
+from jobber_fsm.core.skills.dry_run import maybe_skip_action
 
-
+@maybe_skip_action
 async def extract_text_from_pdf(
     pdf_url: Annotated[str, "The URL of the PDF file to extract text from."],
 ) -> Annotated[str, "All the text found in the PDF file."]:

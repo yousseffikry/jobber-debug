@@ -10,8 +10,9 @@ from jobber_fsm.utils.dom_mutation_observer import (
     unsubscribe,  # type: ignore
 )
 from jobber_fsm.utils.logger import logger
+from jobber_fsm.core.skills.dry_run import maybe_skip_action
 
-
+@maybe_skip_action
 async def press_key_combination(
     key_combination: Annotated[str, "The key to press, e.g., Enter, PageDown etc"],
 ) -> str:

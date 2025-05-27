@@ -15,6 +15,7 @@ from jobber_fsm.core.skills.press_key_combination import press_key_combination
 from jobber_fsm.utils.dom_helper import get_element_outer_html
 from jobber_fsm.utils.dom_mutation_observer import subscribe, unsubscribe
 from jobber_fsm.utils.logger import logger
+from jobber_fsm.core.skills.dry_run import maybe_skip_action
 
 
 @dataclass
@@ -38,7 +39,7 @@ class EnterTextEntry:
         else:
             raise KeyError(f"{key} is not a valid key")
 
-
+@maybe_skip_action
 async def custom_fill_element(page: Page, selector: str, text_to_enter: str):
     """
     Sets the value of a DOM element to a specified text without triggering keyboard input events.

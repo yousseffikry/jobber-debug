@@ -8,8 +8,9 @@ from jobber_fsm.core.skills.click_using_selector import do_click
 from jobber_fsm.core.skills.enter_text_using_selector import do_entertext
 from jobber_fsm.core.skills.press_key_combination import do_press_key_combination
 from jobber_fsm.utils.logger import logger
+from jobber_fsm.core.skills.dry_run import maybe_skip_action
 
-
+@maybe_skip_action
 async def enter_text_and_click(
     text_selector: Annotated[
         str,

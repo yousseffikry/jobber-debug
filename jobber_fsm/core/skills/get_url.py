@@ -1,8 +1,9 @@
 from typing_extensions import Annotated
 
 from jobber_fsm.core.web_driver.playwright import PlaywrightManager
+from jobber_fsm.core.skills.dry_run import maybe_skip_action
 
-
+@maybe_skip_action
 async def geturl() -> (
     Annotated[str, "Returns the full URL of the current active web site/page."]
 ):

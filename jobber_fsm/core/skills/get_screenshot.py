@@ -4,8 +4,9 @@ from typing_extensions import Annotated
 
 from jobber_fsm.core.web_driver.playwright import PlaywrightManager
 from jobber_fsm.utils.logger import logger
+from jobber_fsm.core.skills.dry_run import maybe_skip_action
 
-
+@maybe_skip_action
 async def get_screenshot() -> (
     Annotated[
         str, "Returns a base64 encoded screenshot of the current active web page."
