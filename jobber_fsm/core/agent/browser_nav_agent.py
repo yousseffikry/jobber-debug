@@ -8,6 +8,7 @@ from jobber_fsm.core.models.models import BrowserNavInput, BrowserNavOutput
 from jobber_fsm.core.prompts import LLM_PROMPTS
 from jobber_fsm.utils.logger import logger
 
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Skills / tools you already had
 # ──────────────────────────────────────────────────────────────────────────────
@@ -25,6 +26,23 @@ from jobber_fsm.core.skills.get_url import geturl
 from jobber_fsm.core.skills.press_key_combination import press_key_combination
 from jobber_fsm.core.skills.pdf_text_extractor import extract_text_from_pdf
 from jobber_fsm.core.skills.upload_file import upload_file
+from jobber_fsm.core.models.models import Task
+from itertools import count
+
+_task_seq = count(1)   # simple auto-incrementing id per run
+
+def _mk_task(bullet: str) -> Task:
+    """
+    Convert one markdown-bullet line into a minimal Task object.
+    Only *description* is meaningful for the executor right now;
+    other required fields are stubbed.
+    """
+    return Task(
+        id       = next(_task_seq),
+        description = bullet.lstrip("- ").strip(),
+        url      = None,
+        result   = "",
+    )
 
 
 class BrowserNavAgent(BaseAgent):
@@ -55,14 +73,17 @@ class BrowserNavAgent(BaseAgent):
         logger.debug("BrowserNavAgent: executing task -> %s", task_text)
 
         llm_reply: BrowserNavOutput = await self.run(
-            BrowserNavInput(task=task_text)
+            BrowserNavInput(task=_mk_task(task_text))
         )
+
+        if llm_reply.content is None:
+            llm_reply.content = f"[dry-run] would execute: {task_text}"
 
         #
         # TODO – map llm_reply.content to real Playwright actions and
         #        perform them; for now we just log in dry-run style.
         #
-        logger.info("[dry-run] would perform ⇒ %s", llm_reply.content)
+        logger.info("[dry-run] would perform ⇒ %s", llm_reply.model_dump_json(indent=2))
 
         return llm_reply
 

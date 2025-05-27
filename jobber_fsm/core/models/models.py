@@ -51,4 +51,9 @@ class BrowserNavInput(BaseModel):
 
 
 class BrowserNavOutput(BaseModel):
-    completed_task: Task
+    # ─── fields the Planner expects ────────────────────────────────
+    terminate: bool = True               # “this nav-step is done; give me the next one”
+    content:   str  | None = None        # free-text log / description of what happened
+
+    # ─── whatever detail you want to keep from the executor ───────
+    completed_task: Task | None = None
