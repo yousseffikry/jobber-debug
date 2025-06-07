@@ -1,0 +1,9 @@
+jobber/
+logs/
+node_modules/
+test/
+poetry.lock
+package-lock.json
+package.json
+pyproject.toml
+requirements.txt

@@ -1,6 +1,8 @@
 import json
 from typing import Callable, List, Optional, Tuple, Type
 
+import time
+from openai import RateLimitError
 import litellm
 import openai
 from langsmith.wrappers import wrap_openai
@@ -58,6 +60,8 @@ class BaseAgent:
         self.messages = [{"role": "system", "content": self.system_prompt}]
 
     async def run(self, input_data: BaseModel, screenshot: str = None) -> BaseModel:
+        logger.debug(f"[{self.name}] Starting run with input type: {type(input_data).__name__}")
+        
         if not isinstance(input_data, self.input_format):
             raise ValueError(f"Input data must be of type {self.input_format.__name__}")
 
@@ -80,45 +84,93 @@ class BaseAgent:
                 }
             )
 
-        # print(self.messages)
+        logger.debug(f"[{self.name}] Messages to LLM:")
+        logger.debug(f"  System prompt length: {len(self.system_prompt)} chars")
+        logger.debug(f"  User message: {input_data.model_dump_json()[:200]}...")
+        logger.debug(f"  Total messages: {len(self.messages)}")
+        logger.debug(f"  Has tools: {len(self.tools_list) > 0}")
 
         # TODO: add a max_turn here to prevent a inifinite fallout
         while True:
             # TODO:
             # 1. replace this with litellm post structured json is supported.
             # 2. exeception handling while calling the client
-            if len(self.tools_list) == 0:
-                response = self.client.beta.chat.completions.parse(
-                    model="gpt-4o-2024-08-06",
-                    messages=self.messages,
-                    response_format=self.output_format,
-                )
-            else:
-                # print(self.tools_list)
-                response = self.client.beta.chat.completions.parse(
-                    model="gpt-4o-2024-08-06",
-                    messages=self.messages,
-                    response_format=self.output_format,
-                    tool_choice="auto",
-                    tools=self.tools_list,
-                )
-            response_message = response.choices[0].message
-            # print(response_message)
-            tool_calls = response_message.tool_calls
+            try:
+                if len(self.tools_list) == 0:
+                    logger.debug(f"[{self.name}] Calling LLM without tools")
+                    
+                    # Add retry logic for rate limits
+                    max_retries = 3
+                    for attempt in range(max_retries):
+                        try:
+                            response = self.client.beta.chat.completions.parse(
+                                model="gpt-4o-2024-08-06",
+                                messages=self.messages,
+                                response_format=self.output_format,
+                            )
+                            break  # Success, exit retry loop
+                        except RateLimitError as e:
+                            if attempt < max_retries - 1:
+                                wait_time = (attempt + 1) * 5  # 5, 10, 15 seconds
+                                logger.warning(f"[{self.name}] Rate limit hit, waiting {wait_time}s before retry...")
+                                time.sleep(wait_time)
+                            else:
+                                raise  # Re-raise on final attempt
+                else:
+                    logger.debug(f"[{self.name}] Calling LLM with {len(self.tools_list)} tools")
+                    
+                    # Add retry logic for rate limits
+                    max_retries = 3
+                    for attempt in range(max_retries):
+                        try:
+                            response = self.client.beta.chat.completions.parse(
+                                model="gpt-4o-2024-08-06",
+                                messages=self.messages,
+                                response_format=self.output_format,
+                                tool_choice="auto",
+                                tools=self.tools_list,
+                            )
+                            break  # Success, exit retry loop
+                        except RateLimitError as e:
+                            if attempt < max_retries - 1:
+                                wait_time = (attempt + 1) * 5  # 5, 10, 15 seconds
+                                logger.warning(f"[{self.name}] Rate limit hit, waiting {wait_time}s before retry...")
+                                time.sleep(wait_time)
+                            else:
+                                raise  # Re-raise on final attempt
+                
+                logger.debug(f"[{self.name}] Got response from LLM")
+                response_message = response.choices[0].message
+                
+                # Log the raw response
+                if hasattr(response_message, 'content') and response_message.content:
+                    logger.debug(f"[{self.name}] LLM response content: {response_message.content[:500]}...")
+                
+                tool_calls = response_message.tool_calls
 
-            if tool_calls:
-                self.messages.append(response_message)
-                for tool_call in tool_calls:
-                    await self._append_tool_response(tool_call)
-                continue
+                if tool_calls:
+                    logger.debug(f"[{self.name}] LLM made {len(tool_calls)} tool calls")
+                    self.messages.append(response_message)
+                    for tool_call in tool_calls:
+                        await self._append_tool_response(tool_call)
+                    continue
 
-            parsed_response_content: self.output_format = response_message.parsed
-            return parsed_response_content
+                parsed_response_content: self.output_format = response_message.parsed
+                
+                logger.debug(f"[{self.name}] Parsed response: {parsed_response_content}")
+                
+                return parsed_response_content
+                
+            except Exception as e:
+                logger.error(f"[{self.name}] Error calling LLM: {e}", exc_info=True)
+                raise
 
     async def _append_tool_response(self, tool_call):
         function_name = tool_call.function.name
         function_to_call = self.executable_functions_list[function_name]
         function_args = json.loads(tool_call.function.arguments)
+
+        logger.debug(f"[{self.name}] Executing tool: {function_name} with args: {function_args}")
 
         try:
             # ← run the tool
@@ -146,4 +198,3 @@ class BaseAgent:
                     "content": f"The tool raised an error: {e}",
                 }
             )
-

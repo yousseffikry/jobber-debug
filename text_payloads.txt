@@ -1,0 +1,1251 @@
+[_env.py] Looking for .env at: /.env
+[_env.py] .env exists: False
+[_env.py] WARNING: No .env file found!
+[_env.py] ✓ OPENAI_API_KEY is set
+[cloud_job_runner] Starting script
+[cloud_job_runner] Python path: ['/app', '/usr/local/lib/python311.zip', '/usr/local/lib/python3.11', '/usr/local/lib/python3.11/lib-dynload', '/usr/local/lib/python3.11/site-packages']
+[cloud_job_runner] Current dir: /app
+[cloud_job_runner] Directory contents: ['jobber_fsm', 'poetry.lock', 'pyproject.toml']
+Created log folder at: /app/jobber_fsm/config/log_files
+[cloud_job_runner] Script starting...
+[cloud_job_runner] About to check __main__
+[cloud_job_runner] In __main__ block
+[cloud_job_runner] About to run main()
+[cloud_job_runner] main() function started
+[cloud_job_runner] Getting environment variables
+[cloud_job_runner] Starting main()
+2025-06-07 22:43:47,163 - jobber_fsm.utils.logger - INFO - [cloud_job_runner] Starting main()
+[cloud_job_runner] Raw JOB_DATA: {"userId": "f7389ed2-1b4f-41a6-8716-4fee36f12c2d", "jobUrl": "https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6...
+[cloud_job_runner] JOB_ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+[cloud_job_runner] JOB_DATA length: 728
+Starting job f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+2025-06-07 22:43:47,164 - jobber_fsm.utils.logger - INFO - Starting job f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+Raw JOB_DATA: {"userId": "f7389ed2-1b4f-41a6-8716-4fee36f12c2d", "jobUrl": "https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba", "resumeGcsPath": "gs://jobber-resumes-prod/users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf", "userProfile": {"email": "test@gmail.com", "first_name": "Ian", "last_name": "Hansson", "phone": "+1-4371238440", "visa_status": {"United States": "Visa not required", "Canada": "Work permit required"}, "gender": "Male", "race_ethnicity": "Asian", "veteran_status": "Not protected veteran", "disability_status": [], "date_of_birth": "1998-07-01", "linkedin_profile": "https://linkedin.com/in/johndoe"}}
+2025-06-07 22:43:47,164 - jobber_fsm.utils.logger - INFO - Raw JOB_DATA: {"userId": "f7389ed2-1b4f-41a6-8716-4fee36f12c2d", "jobUrl": "https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba", "resumeGcsPath": "gs://jobber-resumes-prod/users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf", "userProfile": {"email": "test@gmail.com", "first_name": "Ian", "last_name": "Hansson", "phone": "+1-4371238440", "visa_status": {"United States": "Visa not required", "Canada": "Work permit required"}, "gender": "Male", "race_ethnicity": "Asian", "veteran_status": "Not protected veteran", "disability_status": [], "date_of_birth": "1998-07-01", "linkedin_profile": "https://linkedin.com/in/johndoe"}}
+[cloud_job_runner] Successfully parsed job data
+[cloud_job_runner] Job data keys: ['userId', 'jobUrl', 'resumeGcsPath', 'userProfile']
+[cloud_job_runner] Extracted data:
+  user_id: f7389ed2-1b4f-41a6-8716-4fee36f12c2d
+  job_url: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+  resume_gcs_path: gs://jobber-resumes-prod/users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf
+  user_profile keys: ['email', 'first_name', 'last_name', 'phone', 'visa_status', 'gender', 'race_ethnicity', 'veteran_status', 'disability_status', 'date_of_birth', 'linkedin_profile']
+[cloud_job_runner] All required fields present, continuing...
+[cloud_job_runner] About to download resume from: gs://jobber-resumes-prod/users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf
+Downloading resume from GCS...
+2025-06-07 22:43:47,164 - jobber_fsm.utils.logger - INFO - Downloading resume from GCS...
+Downloading from bucket: jobber-resumes-prod, path: users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf
+2025-06-07 22:43:47,213 - jobber_fsm.utils.logger - INFO - Downloading from bucket: jobber-resumes-prod, path: users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf
+Downloaded None bytes to /tmp/tmpajls9_zq.pdf
+2025-06-07 22:43:49,302 - jobber_fsm.utils.logger - INFO - Downloaded None bytes to /tmp/tmpajls9_zq.pdf
+[cloud_job_runner] Resume downloaded successfully to: /tmp/tmpajls9_zq.pdf
+Resume downloaded to: /tmp/tmpajls9_zq.pdf
+2025-06-07 22:43:49,302 - jobber_fsm.utils.logger - INFO - Resume downloaded to: /tmp/tmpajls9_zq.pdf
+[cloud_job_runner] Building complete profile...
+Building complete profile...
+2025-06-07 22:43:49,302 - jobber_fsm.utils.logger - INFO - Building complete profile...
+[cloud_job_runner] Profile built successfully
+Complete profile prepared: {
+  "first_name": "Ian",
+  "last_name": "Hansson",
+  "email": "test@gmail.com",
+  "phone": "+1-4371238440",
+  "linkedin_profile": "https://linkedin.com/in/johndoe",
+  "date_of_birth": "1998-07-01",
+  "gender": "Male",
+  "race_ethnicity": "Asian",
+  "veteran_status": "Not protected veteran",
+  "disability_status": "No",
+  "visa_countries": [
+    {
+      "code": "US",
+      "name": "United States",
+      "requiresSponsorship": false,
+      "status": "Visa not required"
+    },
+    {
+      "code": "CA",
+      "name": "Canada",
+      "requiresSponsorship": true,
+      "status": "Work permit required"
+    }
+  ],
+  "resume_path": "/tmp/tmpajls9_zq.pdf"
+}
+2025-06-07 22:43:49,303 - jobber_fsm.utils.logger - INFO - Complete profile prepared: {
+  "first_name": "Ian",
+  "last_name": "Hansson",
+  "email": "test@gmail.com",
+  "phone": "+1-4371238440",
+  "linkedin_profile": "https://linkedin.com/in/johndoe",
+  "date_of_birth": "1998-07-01",
+  "gender": "Male",
+  "race_ethnicity": "Asian",
+  "veteran_status": "Not protected veteran",
+  "disability_status": "No",
+  "visa_countries": [
+    {
+      "code": "US",
+      "name": "United States",
+      "requiresSponsorship": false,
+      "status": "Visa not required"
+    },
+    {
+      "code": "CA",
+      "name": "Canada",
+      "requiresSponsorship": true,
+      "status": "Work permit required"
+    }
+  ],
+  "resume_path": "/tmp/tmpajls9_zq.pdf"
+}
+[cloud_job_runner] Setting up job context in LTM...
+Setting up job context in LTM...
+2025-06-07 22:43:49,303 - jobber_fsm.utils.logger - INFO - Setting up job context in LTM...
+[cloud_job_runner] Job context set successfully
+[cloud_job_runner] Initializing screenshot debugger...
+Initializing screenshot debugger...
+2025-06-07 22:43:49,303 - jobber_fsm.utils.logger - INFO - Initializing screenshot debugger...
+[cloud_job_runner] Screenshot debugger initialized
+[cloud_job_runner] Testing screenshot capability...
+Testing screenshot capability...
+2025-06-07 22:43:49,309 - jobber_fsm.utils.logger - INFO - Testing screenshot capability...
+[ScreenshotDebugger] Testing screenshot capability
+2025-06-07 22:43:49,310 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Testing screenshot capability
+[PlaywrightManager] Detected cloud environment in __init__ - forcing headless mode
+2025-06-07 22:43:49,310 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Detected cloud environment in __init__ - forcing headless mode
+[PlaywrightManager] Detected cloud/container environment - forcing headless mode
+2025-06-07 22:43:49,310 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Detected cloud/container environment - forcing headless mode
+[PlaywrightManager] Browser launch error: 'PlaywrightManager' object has no attribute 'eval_mode'
+2025-06-07 22:43:49,310 - jobber_fsm.utils.logger - ERROR - [PlaywrightManager] Browser launch error: 'PlaywrightManager' object has no attribute 'eval_mode'
+[PlaywrightManager] Error details: AttributeError
+2025-06-07 22:43:49,310 - jobber_fsm.utils.logger - ERROR - [PlaywrightManager] Error details: AttributeError
+Browser context was closed. Creating a new one. 'PlaywrightManager' object has no attribute 'eval_mode'
+2025-06-07 22:43:49,310 - jobber_fsm.utils.logger - WARNING - Browser context was closed. Creating a new one. 'PlaywrightManager' object has no attribute 'eval_mode'
+[ScreenshotDebugger] No page available for test
+2025-06-07 22:43:49,310 - jobber_fsm.utils.logger - ERROR - [ScreenshotDebugger] No page available for test
+[cloud_job_runner] Screenshot test result: False
+Screenshot test result: False
+2025-06-07 22:43:49,310 - jobber_fsm.utils.logger - INFO - Screenshot test result: False
+[cloud_job_runner] Creating AI agents...
+Creating AI agents...
+2025-06-07 22:43:49,310 - jobber_fsm.utils.logger - INFO - Creating AI agents...
+User preference file not found: /app/jobber_fsm/config/user_preferences/user_preferences.txt
+2025-06-07 22:43:49,311 - jobber_fsm.utils.logger - WARNING - User preference file not found: /app/jobber_fsm/config/user_preferences/user_preferences.txt
+[cloud_job_runner] PlannerAgent created
+  PlannerAgent created
+2025-06-07 22:43:49,401 - jobber_fsm.utils.logger - INFO -   PlannerAgent created
+[cloud_job_runner] Injecting screenshot debugger...
+[cloud_job_runner] Screenshot debugger injected successfully
+  Screenshot debugger injected into planner's browser agent
+2025-06-07 22:43:49,401 - jobber_fsm.utils.logger - INFO -   Screenshot debugger injected into planner's browser agent
+[cloud_job_runner] Creating orchestrator...
+Initializing orchestrator...
+2025-06-07 22:43:49,402 - jobber_fsm.utils.logger - INFO - Initializing orchestrator...
+[cloud_job_runner] About to bootstrap orchestrator...
+[Orchestrator] Starting bootstrap
+2025-06-07 22:43:49,402 - jobber_fsm.utils.logger - INFO - [Orchestrator] Starting bootstrap
+[Orchestrator] Screenshot debugger attached to PlaywrightManager
+2025-06-07 22:43:49,402 - jobber_fsm.utils.logger - INFO - [Orchestrator] Screenshot debugger attached to PlaywrightManager
+[Orchestrator] About to initialize PlaywrightManager
+2025-06-07 22:43:49,402 - jobber_fsm.utils.logger - INFO - [Orchestrator] About to initialize PlaywrightManager
+[PlaywrightManager] Starting async_initialize
+2025-06-07 22:43:49,402 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Starting async_initialize
+[PlaywrightManager] Detected cloud/container environment - forcing headless mode
+2025-06-07 22:43:51,023 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Detected cloud/container environment - forcing headless mode
+[PlaywrightManager] About to launch browser...
+2025-06-07 22:43:51,023 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] About to launch browser...
+  Cloud/Docker: True
+2025-06-07 22:43:51,023 - jobber_fsm.utils.logger - INFO -   Cloud/Docker: True
+  Headless: True
+2025-06-07 22:43:51,024 - jobber_fsm.utils.logger - INFO -   Headless: True
+  Playwright version: Unknown
+2025-06-07 22:43:51,024 - jobber_fsm.utils.logger - INFO -   Playwright version: Unknown
+  which chromium: Not found
+2025-06-07 22:43:51,037 - jobber_fsm.utils.logger - INFO -   which chromium: Not found
+  Playwright browsers: 
+2025-06-07 22:43:51,418 - jobber_fsm.utils.logger - INFO -   Playwright browsers: 
+[PlaywrightManager] Launching with channel=None
+2025-06-07 22:43:51,419 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Launching with channel=None
+[PlaywrightManager] Browser launched successfully
+2025-06-07 22:43:55,529 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Browser launched successfully
+[PlaywrightManager] Browser context created successfully
+2025-06-07 22:43:55,552 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Browser context created successfully
+[PlaywrightManager] Browser setup completed successfully
+2025-06-07 22:43:55,552 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Browser setup completed successfully
+[PlaywrightManager] About to navigate to homepage
+2025-06-07 22:43:55,552 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] About to navigate to homepage
+[PlaywrightManager] Navigating to homepage: https://google.com
+2025-06-07 22:43:56,400 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Navigating to homepage: https://google.com
+[PlaywrightManager] Successfully navigated to: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+2025-06-07 22:43:57,261 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Successfully navigated to: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+[PlaywrightManager] async_initialize completed
+2025-06-07 22:43:57,261 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] async_initialize completed
+[Orchestrator] PlaywrightManager initialized successfully
+2025-06-07 22:43:57,262 - jobber_fsm.utils.logger - INFO - [Orchestrator] PlaywrightManager initialized successfully
+[Orchestrator] Current page URL after init: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+2025-06-07 22:43:57,262 - jobber_fsm.utils.logger - INFO - [Orchestrator] Current page URL after init: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+[Orchestrator] Bootstrap completed
+2025-06-07 22:43:57,262 - jobber_fsm.utils.logger - INFO - [Orchestrator] Bootstrap completed
+[cloud_job_runner] Orchestrator bootstrap completed
+Orchestrator bootstrap completed
+2025-06-07 22:43:57,262 - jobber_fsm.utils.logger - INFO - Orchestrator bootstrap completed
+Testing screenshot capability...
+2025-06-07 22:43:57,262 - jobber_fsm.utils.logger - INFO - Testing screenshot capability...
+[ScreenshotDebugger] Attempting to capture screenshot: test_initial
+2025-06-07 22:43:57,262 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: test_initial
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 0
+2025-06-07 22:43:57,262 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 0
+[ScreenshotDebugger] Page URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+2025-06-07 22:43:57,263 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:43:57,263 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:43:58,276 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 22092 bytes
+2025-06-07 22:43:58,392 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 22092 bytes
+Failed to capture screenshot for test_initial: 'NoneType' object is not callable
+2025-06-07 22:43:58,408 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for test_initial: 'NoneType' object is not callable
+Test screenshot result: None
+2025-06-07 22:43:58,408 - jobber_fsm.utils.logger - INFO - Test screenshot result: None
+Starting job application process...
+2025-06-07 22:43:58,409 - jobber_fsm.utils.logger - INFO - Starting job application process...
+  Objective: Apply to this job: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba. Use the resume at /tmp/tmpajls9_zq.pdf and the provided profile information.
+2025-06-07 22:43:58,409 - jobber_fsm.utils.logger - INFO -   Objective: Apply to this job: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba. Use the resume at /tmp/tmpajls9_zq.pdf and the provided profile information.
+[planner] Processing query with objective: Apply to this job: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba. Use the resume at /tmp/tmpajls9_zq.pdf and the provided profile information.
+2025-06-07 22:43:58,409 - jobber_fsm.utils.logger - INFO - [planner] Processing query with objective: Apply to this job: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba. Use the resume at /tmp/tmpajls9_zq.pdf and the provided profile information.
+[planner] Getting initial plan from LLM...
+2025-06-07 22:43:58,409 - jobber_fsm.utils.logger - INFO - [planner] Getting initial plan from LLM...
+2025-06-07 22:44:04,409 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[planner] Initial LLM response received:
+2025-06-07 22:44:04,449 - jobber_fsm.utils.logger - INFO - [planner] Initial LLM response received:
+  - is_complete: False
+2025-06-07 22:44:04,449 - jobber_fsm.utils.logger - INFO -   - is_complete: False
+  - has plan: True
+2025-06-07 22:44:04,449 - jobber_fsm.utils.logger - INFO -   - has plan: True
+  - has next_task: True
+2025-06-07 22:44:04,449 - jobber_fsm.utils.logger - INFO -   - has next_task: True
+  - final_response: None
+2025-06-07 22:44:04,449 - jobber_fsm.utils.logger - INFO -   - final_response: None
+[planner] Plan has 11 tasks:
+2025-06-07 22:44:04,449 - jobber_fsm.utils.logger - INFO - [planner] Plan has 11 tasks:
+  1. Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   1. Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+  2. Check if user is already logged into ZipRecruiter
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   2. Check if user is already logged into ZipRecruiter
+  3. If not logged in, look for 'Login' or 'Sign In' option and click it
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   3. If not logged in, look for 'Login' or 'Sign In' option and click it
+  4. Check for 'Create Account' option if login credentials are not available and create a new account using the profile email and password 'IanJob2025!'
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   4. Check for 'Create Account' option if login credentials are not available and create a new account using the profile email and password 'IanJob2025!'
+  5. Finish account creation process by verifying email manually if prompted
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   5. Finish account creation process by verifying email manually if prompted
+  6. Once logged in, navigate back to the job posting page
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   6. Once logged in, navigate back to the job posting page
+  7. Click 'Apply' or equivalent button to start the application process
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   7. Click 'Apply' or equivalent button to start the application process
+  8. Fill out the job application form using the profile information
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   8. Fill out the job application form using the profile information
+  9. Upload resume from /tmp/tmpajls9_zq.pdf when prompted
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   9. Upload resume from /tmp/tmpajls9_zq.pdf when prompted
+  10. Answer any additional screening questions using available profile information
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   10. Answer any additional screening questions using available profile information
+  11. Submit the job application
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO -   11. Submit the job application
+[planner] Delegating task to browser agent: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO - [planner] Delegating task to browser agent: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[BrowserNavAgent] Starting task: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Starting task: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[BrowserNavAgent] Attempting screenshot: task_start - Starting: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_start - Starting: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[Screenshot] Taking screenshot: task_start
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_start
+[Screenshot] Current URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+2025-06-07 22:44:04,450 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+[ScreenshotDebugger] Attempting to capture screenshot: task_start
+2025-06-07 22:44:04,451 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_start
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 1
+2025-06-07 22:44:04,451 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 1
+[ScreenshotDebugger] Page URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+2025-06-07 22:44:04,451 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtAQAAAAAAAD0BGKyBk8IGIin1l3X73ftBKoHfLrFsIP0qTRe0fmhdwnP47meJ_vFaCu59RU2Vii2KLDICclJaAUM
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:04,451 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:04,481 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 22092 bytes
+2025-06-07 22:44:04,572 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 22092 bytes
+Failed to capture screenshot for task_start: 'NoneType' object is not callable
+2025-06-07 22:44:04,586 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_start: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_start
+2025-06-07 22:44:04,586 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_start
+2025-06-07 22:44:06,100 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[NAVIGATION] Opening URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:06,108 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Opening URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[NAVIGATION] Timeout: 5 seconds
+2025-06-07 22:44:06,108 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Timeout: 5 seconds
+[ScreenshotDebugger] Attempting to capture screenshot: opened_url
+2025-06-07 22:44:06,427 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: opened_url
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 2
+2025-06-07 22:44:06,427 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 2
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:06,427 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:06,427 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:08,586 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34779 bytes
+2025-06-07 22:44:09,334 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34779 bytes
+Failed to capture screenshot for opened_url: 'NoneType' object is not callable
+2025-06-07 22:44:09,367 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for opened_url: 'NoneType' object is not callable
+[NAVIGATION] Successfully loaded page
+2025-06-07 22:44:09,532 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Successfully loaded page
+[NAVIGATION] Final URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:09,532 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Final URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[NAVIGATION] Page title: Just a moment...
+2025-06-07 22:44:09,532 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Page title: Just a moment...
+2025-06-07 22:44:11,211 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[BrowserNavAgent] LLM decided to use tools: False
+2025-06-07 22:44:11,213 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] LLM decided to use tools: False
+[BrowserNavAgent] Attempting screenshot: task_end - Completed: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:11,214 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_end - Completed: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[Screenshot] Taking screenshot: task_end
+2025-06-07 22:44:11,214 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_end
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:11,214 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_end
+2025-06-07 22:44:11,214 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_end
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 3
+2025-06-07 22:44:11,214 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 3
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:11,214 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:11,214 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:11,237 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+2025-06-07 22:44:11,317 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+Failed to capture screenshot for task_end: 'NoneType' object is not callable
+2025-06-07 22:44:11,335 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_end: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_end
+2025-06-07 22:44:11,335 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_end
+[BrowserNavAgent] Task completed: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:11,335 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Task completed: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[planner] Browser agent completed task
+2025-06-07 22:44:11,335 - jobber_fsm.utils.logger - INFO - [planner] Browser agent completed task
+[planner] Total completed tasks: 1
+2025-06-07 22:44:11,336 - jobber_fsm.utils.logger - INFO - [planner] Total completed tasks: 1
+[planner] Getting next step from LLM...
+2025-06-07 22:44:11,336 - jobber_fsm.utils.logger - INFO - [planner] Getting next step from LLM...
+2025-06-07 22:44:15,496 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[planner] Delegating task to browser agent: Check if user is already logged into ZipRecruiter
+2025-06-07 22:44:15,501 - jobber_fsm.utils.logger - INFO - [planner] Delegating task to browser agent: Check if user is already logged into ZipRecruiter
+[BrowserNavAgent] Starting task: Check if user is already logged into ZipRecruiter
+2025-06-07 22:44:15,501 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Starting task: Check if user is already logged into ZipRecruiter
+[BrowserNavAgent] Attempting screenshot: task_start - Starting: Check if user is already logged into ZipRecruiter
+2025-06-07 22:44:15,501 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_start - Starting: Check if user is already logged into ZipRecruiter
+[Screenshot] Taking screenshot: task_start
+2025-06-07 22:44:15,501 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_start
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:15,501 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_start
+2025-06-07 22:44:15,502 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_start
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 4
+2025-06-07 22:44:15,502 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 4
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:15,502 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:15,502 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:15,525 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+2025-06-07 22:44:15,608 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+Failed to capture screenshot for task_start: 'NoneType' object is not callable
+2025-06-07 22:44:15,619 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_start: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_start
+2025-06-07 22:44:15,619 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_start
+2025-06-07 22:44:16,089 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-07 22:44:17,777 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[BrowserNavAgent] LLM decided to use tools: False
+2025-06-07 22:44:17,783 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] LLM decided to use tools: False
+[BrowserNavAgent] Attempting screenshot: task_end - Completed: Check if user is already logged into ZipRecruiter
+2025-06-07 22:44:17,783 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_end - Completed: Check if user is already logged into ZipRecruiter
+[Screenshot] Taking screenshot: task_end
+2025-06-07 22:44:17,783 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_end
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:17,783 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_end
+2025-06-07 22:44:17,784 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_end
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 5
+2025-06-07 22:44:17,784 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 5
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:17,784 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:17,784 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:17,806 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+2025-06-07 22:44:17,902 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+Failed to capture screenshot for task_end: 'NoneType' object is not callable
+2025-06-07 22:44:17,917 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_end: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_end
+2025-06-07 22:44:17,917 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_end
+[BrowserNavAgent] Task completed: Check if user is already logged into ZipRecruiter
+2025-06-07 22:44:17,917 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Task completed: Check if user is already logged into ZipRecruiter
+[planner] Browser agent completed task
+2025-06-07 22:44:17,917 - jobber_fsm.utils.logger - INFO - [planner] Browser agent completed task
+[planner] Total completed tasks: 2
+2025-06-07 22:44:17,917 - jobber_fsm.utils.logger - INFO - [planner] Total completed tasks: 2
+[planner] Getting next step from LLM...
+2025-06-07 22:44:17,917 - jobber_fsm.utils.logger - INFO - [planner] Getting next step from LLM...
+2025-06-07 22:44:22,385 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[planner] Delegating task to browser agent: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+2025-06-07 22:44:22,390 - jobber_fsm.utils.logger - INFO - [planner] Delegating task to browser agent: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+[BrowserNavAgent] Starting task: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+2025-06-07 22:44:22,390 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Starting task: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+[BrowserNavAgent] Attempting screenshot: task_start - Starting: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+2025-06-07 22:44:22,390 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_start - Starting: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+[Screenshot] Taking screenshot: task_start
+2025-06-07 22:44:22,390 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_start
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:22,390 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_start
+2025-06-07 22:44:22,391 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_start
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 6
+2025-06-07 22:44:22,391 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 6
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:22,391 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:22,391 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:22,415 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+2025-06-07 22:44:22,509 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+Failed to capture screenshot for task_start: 'NoneType' object is not callable
+2025-06-07 22:44:22,520 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_start: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_start
+2025-06-07 22:44:22,520 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_start
+2025-06-07 22:44:23,136 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+Executing Get DOM Command based on content_type: input_fields
+2025-06-07 22:44:23,141 - jobber_fsm.utils.logger - INFO - Executing Get DOM Command based on content_type: input_fields
+2025-06-07 22:44:23,926 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+Executing Get DOM Command based on content_type: text_only
+2025-06-07 22:44:23,931 - jobber_fsm.utils.logger - INFO - Executing Get DOM Command based on content_type: text_only
+Get DOM Command executed in 0.024929046630859375 seconds
+2025-06-07 22:44:23,956 - jobber_fsm.utils.logger - INFO - Get DOM Command executed in 0.024929046630859375 seconds
+2025-06-07 22:44:25,487 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[BrowserNavAgent] LLM decided to use tools: False
+2025-06-07 22:44:25,489 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] LLM decided to use tools: False
+[BrowserNavAgent] Attempting screenshot: task_end - Completed: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+2025-06-07 22:44:25,489 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_end - Completed: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+[Screenshot] Taking screenshot: task_end
+2025-06-07 22:44:25,489 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_end
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:25,490 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_end
+2025-06-07 22:44:25,490 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_end
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 7
+2025-06-07 22:44:25,490 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 7
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:25,490 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:25,490 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:25,512 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+2025-06-07 22:44:25,595 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+Failed to capture screenshot for task_end: 'NoneType' object is not callable
+2025-06-07 22:44:25,604 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_end: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_end
+2025-06-07 22:44:25,604 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_end
+[BrowserNavAgent] Task completed: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+2025-06-07 22:44:25,604 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Task completed: Look for 'Login' or 'Sign In' option on the page and click it to begin the login process
+[planner] Browser agent completed task
+2025-06-07 22:44:25,604 - jobber_fsm.utils.logger - INFO - [planner] Browser agent completed task
+[planner] Total completed tasks: 3
+2025-06-07 22:44:25,604 - jobber_fsm.utils.logger - INFO - [planner] Total completed tasks: 3
+[planner] Getting next step from LLM...
+2025-06-07 22:44:25,604 - jobber_fsm.utils.logger - INFO - [planner] Getting next step from LLM...
+2025-06-07 22:44:30,747 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[planner] Delegating task to browser agent: Inform user manual intervention is required to complete security verification on the job posting page.
+2025-06-07 22:44:30,752 - jobber_fsm.utils.logger - INFO - [planner] Delegating task to browser agent: Inform user manual intervention is required to complete security verification on the job posting page.
+[BrowserNavAgent] Starting task: Inform user manual intervention is required to complete security verification on the job posting page.
+2025-06-07 22:44:30,752 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Starting task: Inform user manual intervention is required to complete security verification on the job posting page.
+[BrowserNavAgent] Attempting screenshot: task_start - Starting: Inform user manual intervention is required to complete security verification on the job posting page.
+2025-06-07 22:44:30,752 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_start - Starting: Inform user manual intervention is required to complete security verification on the job posting page.
+[Screenshot] Taking screenshot: task_start
+2025-06-07 22:44:30,752 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_start
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:30,752 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_start
+2025-06-07 22:44:30,752 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_start
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 8
+2025-06-07 22:44:30,752 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 8
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:30,752 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:30,752 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:30,776 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+2025-06-07 22:44:30,865 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+Failed to capture screenshot for task_start: 'NoneType' object is not callable
+2025-06-07 22:44:30,877 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_start: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_start
+2025-06-07 22:44:30,877 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_start
+2025-06-07 22:44:32,674 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[BrowserNavAgent] LLM decided to use tools: False
+2025-06-07 22:44:32,677 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] LLM decided to use tools: False
+[BrowserNavAgent] Attempting screenshot: task_end - Completed: Inform user manual intervention is required to complete security verification on the job posting page.
+2025-06-07 22:44:32,677 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_end - Completed: Inform user manual intervention is required to complete security verification on the job posting page.
+[Screenshot] Taking screenshot: task_end
+2025-06-07 22:44:32,677 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_end
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:32,677 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_end
+2025-06-07 22:44:32,677 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_end
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 9
+2025-06-07 22:44:32,677 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 9
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:32,677 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:32,678 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:32,702 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+2025-06-07 22:44:32,829 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+Failed to capture screenshot for task_end: 'NoneType' object is not callable
+2025-06-07 22:44:32,842 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_end: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_end
+2025-06-07 22:44:32,842 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_end
+[BrowserNavAgent] Task completed: Inform user manual intervention is required to complete security verification on the job posting page.
+2025-06-07 22:44:32,842 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Task completed: Inform user manual intervention is required to complete security verification on the job posting page.
+[planner] Browser agent completed task
+2025-06-07 22:44:32,842 - jobber_fsm.utils.logger - INFO - [planner] Browser agent completed task
+[planner] Total completed tasks: 4
+2025-06-07 22:44:32,842 - jobber_fsm.utils.logger - INFO - [planner] Total completed tasks: 4
+[planner] Getting next step from LLM...
+2025-06-07 22:44:32,842 - jobber_fsm.utils.logger - INFO - [planner] Getting next step from LLM...
+2025-06-07 22:44:36,761 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[planner] Delegating task to browser agent: Inform user manual intervention is required to complete security verification on the job posting page.
+2025-06-07 22:44:36,765 - jobber_fsm.utils.logger - INFO - [planner] Delegating task to browser agent: Inform user manual intervention is required to complete security verification on the job posting page.
+[BrowserNavAgent] Starting task: Inform user manual intervention is required to complete security verification on the job posting page.
+2025-06-07 22:44:36,765 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Starting task: Inform user manual intervention is required to complete security verification on the job posting page.
+[BrowserNavAgent] Attempting screenshot: task_start - Starting: Inform user manual intervention is required to complete security verification on the job posting page.
+2025-06-07 22:44:36,765 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_start - Starting: Inform user manual intervention is required to complete security verification on the job posting page.
+[Screenshot] Taking screenshot: task_start
+2025-06-07 22:44:36,765 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_start
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:36,765 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_start
+2025-06-07 22:44:36,765 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_start
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 10
+2025-06-07 22:44:36,766 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 10
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:44:36,766 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:44:36,766 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:44:36,792 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+2025-06-07 22:44:36,875 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34379 bytes
+Failed to capture screenshot for task_start: 'NoneType' object is not callable
+2025-06-07 22:44:36,885 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_start: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_start
+2025-06-07 22:44:36,885 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_start
+2025-06-07 22:44:39,133 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[executor] Error calling LLM: 1 validation error for BrowserNavOutput
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+Traceback (most recent call last):
+  File "/app/jobber_fsm/core/agent/base.py", line 126, in run
+    response = self.client.beta.chat.completions.parse(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/resources/beta/chat/completions.py", line 143, in parse
+    return _parse_chat_completion(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 110, in parse_chat_completion
+    "parsed": maybe_parse_content(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 161, in maybe_parse_content
+    return _parse_content(response_format, message.content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 225, in _parse_content
+    return cast(ResponseFormatT, model_parse_json(response_format, content))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Traceback (most recent call last):
+  File "/app/jobber_fsm/cloud_job_runner.py", line 278, in main
+    result = await planner.process_query(planner_input)
+  File "/usr/local/lib/python3.11/site-packages/openai/_compat.py", line 164, in model_parse_json
+    return model.model_validate_json(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydantic/main.py", line 597, in model_validate_json
+    return cls.__pydantic_validator__.validate_json(json_data, strict=strict, context=context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for BrowserNavOutput
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+  File "/app/jobber_fsm/core/agent/planner_agent.py", line 149, in process_query
+    nav_out = await self.browser_agent.process_query(next_task.description)
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/browser_nav_agent.py", line 106, in process_query
+2025-06-07 22:44:39,134 - jobber_fsm.utils.logger - ERROR - [executor] Error calling LLM: 1 validation error for BrowserNavOutput
+    llm_reply: BrowserNavOutput = await self.run(
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+                                  ^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/base.py", line 126, in run
+Traceback (most recent call last):
+  File "/app/jobber_fsm/core/agent/base.py", line 126, in run
+    response = self.client.beta.chat.completions.parse(
+    response = self.client.beta.chat.completions.parse(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/resources/beta/chat/completions.py", line 143, in parse
+  File "/usr/local/lib/python3.11/site-packages/openai/resources/beta/chat/completions.py", line 143, in parse
+    return _parse_chat_completion(
+    return _parse_chat_completion(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 110, in parse_chat_completion
+    "parsed": maybe_parse_content(
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 110, in parse_chat_completion
+              ^^^^^^^^^^^^^^^^^^^^
+    "parsed": maybe_parse_content(
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 161, in maybe_parse_content
+              ^^^^^^^^^^^^^^^^^^^^
+    return _parse_content(response_format, message.content)
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 161, in maybe_parse_content
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return _parse_content(response_format, message.content)
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 225, in _parse_content
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return cast(ResponseFormatT, model_parse_json(response_format, content))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 225, in _parse_content
+  File "/usr/local/lib/python3.11/site-packages/openai/_compat.py", line 164, in model_parse_json
+    return cast(ResponseFormatT, model_parse_json(response_format, content))
+    return model.model_validate_json(data)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/_compat.py", line 164, in model_parse_json
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return model.model_validate_json(data)
+  File "/usr/local/lib/python3.11/site-packages/pydantic/main.py", line 597, in model_validate_json
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return cls.__pydantic_validator__.validate_json(json_data, strict=strict, context=context)
+  File "/usr/local/lib/python3.11/site-packages/pydantic/main.py", line 597, in model_validate_json
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    return cls.__pydantic_validator__.validate_json(json_data, strict=strict, context=context)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for BrowserNavOutput
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+[cloud_job_runner] EXCEPTION in main try block: ValidationError: 1 validation error for BrowserNavOutput
+pydantic_core._pydantic_core.ValidationError: 1 validation error for BrowserNavOutput
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+[cloud_job_runner] Exception details:
+Traceback (most recent call last):
+  File "/app/jobber_fsm/cloud_job_runner.py", line 278, in main
+    result = await planner.process_query(planner_input)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/planner_agent.py", line 149, in process_query
+    nav_out = await self.browser_agent.process_query(next_task.description)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/browser_nav_agent.py", line 106, in process_query
+    llm_reply: BrowserNavOutput = await self.run(
+                                  ^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/base.py", line 126, in run
+    response = self.client.beta.chat.completions.parse(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/resources/beta/chat/completions.py", line 143, in parse
+    return _parse_chat_completion(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 110, in parse_chat_completion
+    "parsed": maybe_parse_content(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 161, in maybe_parse_content
+    return _parse_content(response_format, message.content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 225, in _parse_content
+    return cast(ResponseFormatT, model_parse_json(response_format, content))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/_compat.py", line 164, in model_parse_json
+    return model.model_validate_json(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydantic/main.py", line 597, in model_validate_json
+    return cls.__pydantic_validator__.validate_json(json_data, strict=strict, context=context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for BrowserNavOutput
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+2025-06-07 22:44:39,137 - jobber_fsm.utils.logger - ERROR - [cloud_job_runner] Exception details:
+Traceback (most recent call last):
+  File "/app/jobber_fsm/cloud_job_runner.py", line 278, in main
+    result = await planner.process_query(planner_input)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/planner_agent.py", line 149, in process_query
+    nav_out = await self.browser_agent.process_query(next_task.description)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/browser_nav_agent.py", line 106, in process_query
+    llm_reply: BrowserNavOutput = await self.run(
+                                  ^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/base.py", line 126, in run
+    response = self.client.beta.chat.completions.parse(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/resources/beta/chat/completions.py", line 143, in parse
+    return _parse_chat_completion(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 110, in parse_chat_completion
+    "parsed": maybe_parse_content(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 161, in maybe_parse_content
+    return _parse_content(response_format, message.content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 225, in _parse_content
+    return cast(ResponseFormatT, model_parse_json(response_format, content))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/_compat.py", line 164, in model_parse_json
+    return model.model_validate_json(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydantic/main.py", line 597, in model_validate_json
+    return cls.__pydantic_validator__.validate_json(json_data, strict=strict, context=context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for BrowserNavOutput
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+Stored result: failed for job f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+2025-06-07 22:44:40,813 - jobber_fsm.utils.logger - INFO - Stored result: failed for job f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+Job failed with error: 1 validation error for BrowserNavOutput
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+2025-06-07 22:44:40,814 - jobber_fsm.utils.logger - ERROR - Job failed with error: 1 validation error for BrowserNavOutput
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+[cloud_job_runner] Fatal error: 1 validation error for BrowserNavOutput
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+Traceback (most recent call last):
+  File "/app/jobber_fsm/cloud_job_runner.py", line 386, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/cloud_job_runner.py", line 278, in main
+    result = await planner.process_query(planner_input)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/planner_agent.py", line 149, in process_query
+    nav_out = await self.browser_agent.process_query(next_task.description)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/browser_nav_agent.py", line 106, in process_query
+    llm_reply: BrowserNavOutput = await self.run(
+                                  ^^^^^^^^^^^^^^^
+  File "/app/jobber_fsm/core/agent/base.py", line 126, in run
+    response = self.client.beta.chat.completions.parse(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/resources/beta/chat/completions.py", line 143, in parse
+    return _parse_chat_completion(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 110, in parse_chat_completion
+    "parsed": maybe_parse_content(
+              ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 161, in maybe_parse_content
+    return _parse_content(response_format, message.content)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/lib/_parsing/_completions.py", line 225, in _parse_content
+    return cast(ResponseFormatT, model_parse_json(response_format, content))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/openai/_compat.py", line 164, in model_parse_json
+    return model.model_validate_json(data)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/pydantic/main.py", line 597, in model_validate_json
+    return cls.__pydantic_validator__.validate_json(json_data, strict=strict, context=context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for BrowserNavOutput
+  Invalid JSON: trailing characters at line 2 column 1 [type=json_invalid, input_value='{"completed_task":{"id":...ry steps on the page."}', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.8/v/json_invalid
+Container called exit(1).
+[_env.py] Looking for .env at: /.env
+[_env.py] .env exists: False
+[_env.py] WARNING: No .env file found!
+[_env.py] ✓ OPENAI_API_KEY is set
+[cloud_job_runner] Starting script
+[cloud_job_runner] Python path: ['/app', '/usr/local/lib/python311.zip', '/usr/local/lib/python3.11', '/usr/local/lib/python3.11/lib-dynload', '/usr/local/lib/python3.11/site-packages']
+[cloud_job_runner] Current dir: /app
+[cloud_job_runner] Directory contents: ['jobber_fsm', 'poetry.lock', 'pyproject.toml']
+Created log folder at: /app/jobber_fsm/config/log_files
+[cloud_job_runner] Script starting...
+[cloud_job_runner] About to check __main__
+[cloud_job_runner] In __main__ block
+[cloud_job_runner] About to run main()
+[cloud_job_runner] main() function started
+[cloud_job_runner] Getting environment variables
+[cloud_job_runner] Starting main()
+2025-06-07 22:45:31,494 - jobber_fsm.utils.logger - INFO - [cloud_job_runner] Starting main()
+[cloud_job_runner] Raw JOB_DATA: {"userId": "f7389ed2-1b4f-41a6-8716-4fee36f12c2d", "jobUrl": "https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6...
+[cloud_job_runner] JOB_ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+[cloud_job_runner] JOB_DATA length: 728
+Starting job f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+2025-06-07 22:45:31,494 - jobber_fsm.utils.logger - INFO - Starting job f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+Raw JOB_DATA: {"userId": "f7389ed2-1b4f-41a6-8716-4fee36f12c2d", "jobUrl": "https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba", "resumeGcsPath": "gs://jobber-resumes-prod/users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf", "userProfile": {"email": "test@gmail.com", "first_name": "Ian", "last_name": "Hansson", "phone": "+1-4371238440", "visa_status": {"United States": "Visa not required", "Canada": "Work permit required"}, "gender": "Male", "race_ethnicity": "Asian", "veteran_status": "Not protected veteran", "disability_status": [], "date_of_birth": "1998-07-01", "linkedin_profile": "https://linkedin.com/in/johndoe"}}
+2025-06-07 22:45:31,494 - jobber_fsm.utils.logger - INFO - Raw JOB_DATA: {"userId": "f7389ed2-1b4f-41a6-8716-4fee36f12c2d", "jobUrl": "https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba", "resumeGcsPath": "gs://jobber-resumes-prod/users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf", "userProfile": {"email": "test@gmail.com", "first_name": "Ian", "last_name": "Hansson", "phone": "+1-4371238440", "visa_status": {"United States": "Visa not required", "Canada": "Work permit required"}, "gender": "Male", "race_ethnicity": "Asian", "veteran_status": "Not protected veteran", "disability_status": [], "date_of_birth": "1998-07-01", "linkedin_profile": "https://linkedin.com/in/johndoe"}}
+[cloud_job_runner] Successfully parsed job data
+[cloud_job_runner] Job data keys: ['userId', 'jobUrl', 'resumeGcsPath', 'userProfile']
+[cloud_job_runner] Extracted data:
+  user_id: f7389ed2-1b4f-41a6-8716-4fee36f12c2d
+  job_url: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+  resume_gcs_path: gs://jobber-resumes-prod/users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf
+  user_profile keys: ['email', 'first_name', 'last_name', 'phone', 'visa_status', 'gender', 'race_ethnicity', 'veteran_status', 'disability_status', 'date_of_birth', 'linkedin_profile']
+[cloud_job_runner] All required fields present, continuing...
+[cloud_job_runner] About to download resume from: gs://jobber-resumes-prod/users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf
+Downloading resume from GCS...
+2025-06-07 22:45:31,495 - jobber_fsm.utils.logger - INFO - Downloading resume from GCS...
+Downloading from bucket: jobber-resumes-prod, path: users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf
+2025-06-07 22:45:31,542 - jobber_fsm.utils.logger - INFO - Downloading from bucket: jobber-resumes-prod, path: users/f7389ed2-1b4f-41a6-8716-4fee36f12c2d/resume-1749060012726.pdf
+Downloaded None bytes to /tmp/tmpp91ep5au.pdf
+2025-06-07 22:45:33,617 - jobber_fsm.utils.logger - INFO - Downloaded None bytes to /tmp/tmpp91ep5au.pdf
+[cloud_job_runner] Resume downloaded successfully to: /tmp/tmpp91ep5au.pdf
+Resume downloaded to: /tmp/tmpp91ep5au.pdf
+2025-06-07 22:45:33,617 - jobber_fsm.utils.logger - INFO - Resume downloaded to: /tmp/tmpp91ep5au.pdf
+[cloud_job_runner] Building complete profile...
+Building complete profile...
+2025-06-07 22:45:33,617 - jobber_fsm.utils.logger - INFO - Building complete profile...
+[cloud_job_runner] Profile built successfully
+Complete profile prepared: {
+  "first_name": "Ian",
+  "last_name": "Hansson",
+  "email": "test@gmail.com",
+  "phone": "+1-4371238440",
+  "linkedin_profile": "https://linkedin.com/in/johndoe",
+  "date_of_birth": "1998-07-01",
+  "gender": "Male",
+  "race_ethnicity": "Asian",
+  "veteran_status": "Not protected veteran",
+  "disability_status": "No",
+  "visa_countries": [
+    {
+      "code": "US",
+      "name": "United States",
+      "requiresSponsorship": false,
+      "status": "Visa not required"
+    },
+    {
+      "code": "CA",
+      "name": "Canada",
+      "requiresSponsorship": true,
+      "status": "Work permit required"
+    }
+  ],
+  "resume_path": "/tmp/tmpp91ep5au.pdf"
+}
+2025-06-07 22:45:33,618 - jobber_fsm.utils.logger - INFO - Complete profile prepared: {
+  "first_name": "Ian",
+  "last_name": "Hansson",
+  "email": "test@gmail.com",
+  "phone": "+1-4371238440",
+  "linkedin_profile": "https://linkedin.com/in/johndoe",
+  "date_of_birth": "1998-07-01",
+  "gender": "Male",
+  "race_ethnicity": "Asian",
+  "veteran_status": "Not protected veteran",
+  "disability_status": "No",
+  "visa_countries": [
+    {
+      "code": "US",
+      "name": "United States",
+      "requiresSponsorship": false,
+      "status": "Visa not required"
+    },
+    {
+      "code": "CA",
+      "name": "Canada",
+      "requiresSponsorship": true,
+      "status": "Work permit required"
+    }
+  ],
+  "resume_path": "/tmp/tmpp91ep5au.pdf"
+}
+[cloud_job_runner] Setting up job context in LTM...
+Setting up job context in LTM...
+2025-06-07 22:45:33,618 - jobber_fsm.utils.logger - INFO - Setting up job context in LTM...
+[cloud_job_runner] Job context set successfully
+[cloud_job_runner] Initializing screenshot debugger...
+Initializing screenshot debugger...
+2025-06-07 22:45:33,618 - jobber_fsm.utils.logger - INFO - Initializing screenshot debugger...
+[cloud_job_runner] Screenshot debugger initialized
+[cloud_job_runner] Testing screenshot capability...
+Testing screenshot capability...
+2025-06-07 22:45:33,625 - jobber_fsm.utils.logger - INFO - Testing screenshot capability...
+[ScreenshotDebugger] Testing screenshot capability
+2025-06-07 22:45:33,625 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Testing screenshot capability
+[PlaywrightManager] Detected cloud environment in __init__ - forcing headless mode
+2025-06-07 22:45:33,625 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Detected cloud environment in __init__ - forcing headless mode
+[PlaywrightManager] Detected cloud/container environment - forcing headless mode
+2025-06-07 22:45:33,625 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Detected cloud/container environment - forcing headless mode
+[PlaywrightManager] Browser launch error: 'PlaywrightManager' object has no attribute 'eval_mode'
+2025-06-07 22:45:33,625 - jobber_fsm.utils.logger - ERROR - [PlaywrightManager] Browser launch error: 'PlaywrightManager' object has no attribute 'eval_mode'
+[PlaywrightManager] Error details: AttributeError
+2025-06-07 22:45:33,625 - jobber_fsm.utils.logger - ERROR - [PlaywrightManager] Error details: AttributeError
+Browser context was closed. Creating a new one. 'PlaywrightManager' object has no attribute 'eval_mode'
+2025-06-07 22:45:33,626 - jobber_fsm.utils.logger - WARNING - Browser context was closed. Creating a new one. 'PlaywrightManager' object has no attribute 'eval_mode'
+[ScreenshotDebugger] No page available for test
+2025-06-07 22:45:33,626 - jobber_fsm.utils.logger - ERROR - [ScreenshotDebugger] No page available for test
+[cloud_job_runner] Screenshot test result: False
+Screenshot test result: False
+2025-06-07 22:45:33,626 - jobber_fsm.utils.logger - INFO - Screenshot test result: False
+[cloud_job_runner] Creating AI agents...
+Creating AI agents...
+2025-06-07 22:45:33,626 - jobber_fsm.utils.logger - INFO - Creating AI agents...
+User preference file not found: /app/jobber_fsm/config/user_preferences/user_preferences.txt
+2025-06-07 22:45:33,626 - jobber_fsm.utils.logger - WARNING - User preference file not found: /app/jobber_fsm/config/user_preferences/user_preferences.txt
+[cloud_job_runner] PlannerAgent created
+  PlannerAgent created
+2025-06-07 22:45:33,706 - jobber_fsm.utils.logger - INFO -   PlannerAgent created
+[cloud_job_runner] Injecting screenshot debugger...
+[cloud_job_runner] Screenshot debugger injected successfully
+  Screenshot debugger injected into planner's browser agent
+2025-06-07 22:45:33,706 - jobber_fsm.utils.logger - INFO -   Screenshot debugger injected into planner's browser agent
+[cloud_job_runner] Creating orchestrator...
+Initializing orchestrator...
+2025-06-07 22:45:33,706 - jobber_fsm.utils.logger - INFO - Initializing orchestrator...
+[cloud_job_runner] About to bootstrap orchestrator...
+[Orchestrator] Starting bootstrap
+2025-06-07 22:45:33,706 - jobber_fsm.utils.logger - INFO - [Orchestrator] Starting bootstrap
+[Orchestrator] Screenshot debugger attached to PlaywrightManager
+2025-06-07 22:45:33,706 - jobber_fsm.utils.logger - INFO - [Orchestrator] Screenshot debugger attached to PlaywrightManager
+[Orchestrator] About to initialize PlaywrightManager
+2025-06-07 22:45:33,706 - jobber_fsm.utils.logger - INFO - [Orchestrator] About to initialize PlaywrightManager
+[PlaywrightManager] Starting async_initialize
+2025-06-07 22:45:33,706 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Starting async_initialize
+[PlaywrightManager] Detected cloud/container environment - forcing headless mode
+2025-06-07 22:45:35,087 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Detected cloud/container environment - forcing headless mode
+[PlaywrightManager] About to launch browser...
+2025-06-07 22:45:35,087 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] About to launch browser...
+  Cloud/Docker: True
+2025-06-07 22:45:35,087 - jobber_fsm.utils.logger - INFO -   Cloud/Docker: True
+  Headless: True
+2025-06-07 22:45:35,087 - jobber_fsm.utils.logger - INFO -   Headless: True
+  Playwright version: Unknown
+2025-06-07 22:45:35,087 - jobber_fsm.utils.logger - INFO -   Playwright version: Unknown
+  which chromium: Not found
+2025-06-07 22:45:35,095 - jobber_fsm.utils.logger - INFO -   which chromium: Not found
+  Playwright browsers: 
+2025-06-07 22:45:35,483 - jobber_fsm.utils.logger - INFO -   Playwright browsers: 
+[PlaywrightManager] Launching with channel=None
+2025-06-07 22:45:35,484 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Launching with channel=None
+[PlaywrightManager] Browser launched successfully
+2025-06-07 22:45:39,310 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Browser launched successfully
+[PlaywrightManager] Browser context created successfully
+2025-06-07 22:45:39,333 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Browser context created successfully
+[PlaywrightManager] Browser setup completed successfully
+2025-06-07 22:45:39,333 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Browser setup completed successfully
+[PlaywrightManager] About to navigate to homepage
+2025-06-07 22:45:39,333 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] About to navigate to homepage
+[PlaywrightManager] Navigating to homepage: https://google.com
+2025-06-07 22:45:40,089 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Navigating to homepage: https://google.com
+[PlaywrightManager] Successfully navigated to: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+2025-06-07 22:45:40,971 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] Successfully navigated to: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+[PlaywrightManager] async_initialize completed
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - [PlaywrightManager] async_initialize completed
+[Orchestrator] PlaywrightManager initialized successfully
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - [Orchestrator] PlaywrightManager initialized successfully
+[Orchestrator] Current page URL after init: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - [Orchestrator] Current page URL after init: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+[Orchestrator] Bootstrap completed
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - [Orchestrator] Bootstrap completed
+[cloud_job_runner] Orchestrator bootstrap completed
+Orchestrator bootstrap completed
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - Orchestrator bootstrap completed
+Testing screenshot capability...
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - Testing screenshot capability...
+[ScreenshotDebugger] Attempting to capture screenshot: test_initial
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: test_initial
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 0
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 0
+[ScreenshotDebugger] Page URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:45:40,972 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:45:42,014 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 22265 bytes
+2025-06-07 22:45:42,119 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 22265 bytes
+Failed to capture screenshot for test_initial: 'NoneType' object is not callable
+2025-06-07 22:45:42,129 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for test_initial: 'NoneType' object is not callable
+Test screenshot result: None
+2025-06-07 22:45:42,129 - jobber_fsm.utils.logger - INFO - Test screenshot result: None
+Starting job application process...
+2025-06-07 22:45:42,129 - jobber_fsm.utils.logger - INFO - Starting job application process...
+  Objective: Apply to this job: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba. Use the resume at /tmp/tmpp91ep5au.pdf and the provided profile information.
+2025-06-07 22:45:42,129 - jobber_fsm.utils.logger - INFO -   Objective: Apply to this job: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba. Use the resume at /tmp/tmpp91ep5au.pdf and the provided profile information.
+[planner] Processing query with objective: Apply to this job: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba. Use the resume at /tmp/tmpp91ep5au.pdf and the provided profile information.
+2025-06-07 22:45:42,129 - jobber_fsm.utils.logger - INFO - [planner] Processing query with objective: Apply to this job: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba. Use the resume at /tmp/tmpp91ep5au.pdf and the provided profile information.
+[planner] Getting initial plan from LLM...
+2025-06-07 22:45:42,130 - jobber_fsm.utils.logger - INFO - [planner] Getting initial plan from LLM...
+2025-06-07 22:45:48,434 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[planner] Initial LLM response received:
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO - [planner] Initial LLM response received:
+  - is_complete: False
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   - is_complete: False
+  - has plan: True
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   - has plan: True
+  - has next_task: True
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   - has next_task: True
+  - final_response: None
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   - final_response: None
+[planner] Plan has 10 tasks:
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO - [planner] Plan has 10 tasks:
+  1. Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   1. Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+  2. Check if the user is already logged in by looking for profile menu or login button.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   2. Check if the user is already logged in by looking for profile menu or login button.
+  3. If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   3. If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+  4. Fill the registration form using profile data: first name, last name, email (test@gmail.com) and a password (IanJob2025!) if creating a new account.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   4. Fill the registration form using profile data: first name, last name, email (test@gmail.com) and a password (IanJob2025!) if creating a new account.
+  5. Submit the registration form and check if email verification is needed.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   5. Submit the registration form and check if email verification is needed.
+  6. Once logged in, locate and click the "Apply" button on the job posting.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   6. Once logged in, locate and click the "Apply" button on the job posting.
+  7. Fill out the job application form with the profile data: first name, last name, email, phone, LinkedIn profile, date of birth, gender, race/ethnicity, veteran status, disability status, visa status.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   7. Fill out the job application form with the profile data: first name, last name, email, phone, LinkedIn profile, date of birth, gender, race/ethnicity, veteran status, disability status, visa status.
+  8. Upload the resume file located at /tmp/tmpp91ep5au.pdf.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   8. Upload the resume file located at /tmp/tmpp91ep5au.pdf.
+  9. Review all information entered in the application for accuracy.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   9. Review all information entered in the application for accuracy.
+  10. Submit the completed job application.
+2025-06-07 22:45:48,464 - jobber_fsm.utils.logger - INFO -   10. Submit the completed job application.
+[planner] Delegating task to browser agent: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+2025-06-07 22:45:48,465 - jobber_fsm.utils.logger - INFO - [planner] Delegating task to browser agent: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+[BrowserNavAgent] Starting task: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+2025-06-07 22:45:48,465 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Starting task: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+[BrowserNavAgent] Attempting screenshot: task_start - Starting: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+2025-06-07 22:45:48,465 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_start - Starting: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+[Screenshot] Taking screenshot: task_start
+2025-06-07 22:45:48,465 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_start
+[Screenshot] Current URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+2025-06-07 22:45:48,465 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+[ScreenshotDebugger] Attempting to capture screenshot: task_start
+2025-06-07 22:45:48,465 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_start
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 1
+2025-06-07 22:45:48,465 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 1
+[ScreenshotDebugger] Page URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+2025-06-07 22:45:48,465 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.google.com/sorry/index?continue=https://google.com/&q=EhAmABkAAAAtBQAAAAAAADgAGJSCk8IGIimKs8V_2hq-kxHXfwX3sX2m6iBgQarY5Xj7Cap2gOsprPS-0zcil-nbPDICclJaAUM
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:45:48,465 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:45:48,488 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 22265 bytes
+2025-06-07 22:45:48,569 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 22265 bytes
+Failed to capture screenshot for task_start: 'NoneType' object is not callable
+2025-06-07 22:45:48,583 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_start: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_start
+2025-06-07 22:45:48,584 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_start
+2025-06-07 22:45:49,651 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[NAVIGATION] Opening URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:45:49,661 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Opening URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[NAVIGATION] Timeout: 5 seconds
+2025-06-07 22:45:49,661 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Timeout: 5 seconds
+[ScreenshotDebugger] Attempting to capture screenshot: opened_url
+2025-06-07 22:45:50,046 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: opened_url
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 2
+2025-06-07 22:45:50,046 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 2
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:45:50,046 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:45:50,046 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:45:52,018 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34829 bytes
+2025-06-07 22:45:53,518 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34829 bytes
+Failed to capture screenshot for opened_url: 'NoneType' object is not callable
+2025-06-07 22:45:53,529 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for opened_url: 'NoneType' object is not callable
+[NAVIGATION] Successfully loaded page
+2025-06-07 22:45:53,537 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Successfully loaded page
+[NAVIGATION] Final URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:45:53,537 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Final URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[NAVIGATION] Page title: Just a moment...
+2025-06-07 22:45:53,537 - jobber_fsm.utils.logger - INFO - [NAVIGATION] Page title: Just a moment...
+2025-06-07 22:45:55,173 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[BrowserNavAgent] LLM decided to use tools: False
+2025-06-07 22:45:55,176 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] LLM decided to use tools: False
+[BrowserNavAgent] Attempting screenshot: task_end - Completed: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+2025-06-07 22:45:55,176 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_end - Completed: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+[Screenshot] Taking screenshot: task_end
+2025-06-07 22:45:55,176 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_end
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:45:55,176 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_end
+2025-06-07 22:45:55,176 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_end
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 3
+2025-06-07 22:45:55,176 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 3
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:45:55,176 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:45:55,176 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:45:55,202 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+2025-06-07 22:45:55,278 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+Failed to capture screenshot for task_end: 'NoneType' object is not callable
+2025-06-07 22:45:55,289 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_end: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_end
+2025-06-07 22:45:55,289 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_end
+[BrowserNavAgent] Task completed: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+2025-06-07 22:45:55,289 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Task completed: Navigate to the job posting URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba.
+[planner] Browser agent completed task
+2025-06-07 22:45:55,289 - jobber_fsm.utils.logger - INFO - [planner] Browser agent completed task
+[planner] Total completed tasks: 1
+2025-06-07 22:45:55,289 - jobber_fsm.utils.logger - INFO - [planner] Total completed tasks: 1
+[planner] Getting next step from LLM...
+2025-06-07 22:45:55,290 - jobber_fsm.utils.logger - INFO - [planner] Getting next step from LLM...
+2025-06-07 22:45:59,271 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[planner] Delegating task to browser agent: Check if the user is already logged in by looking for profile menu or login button.
+2025-06-07 22:45:59,276 - jobber_fsm.utils.logger - INFO - [planner] Delegating task to browser agent: Check if the user is already logged in by looking for profile menu or login button.
+[BrowserNavAgent] Starting task: Check if the user is already logged in by looking for profile menu or login button.
+2025-06-07 22:45:59,277 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Starting task: Check if the user is already logged in by looking for profile menu or login button.
+[BrowserNavAgent] Attempting screenshot: task_start - Starting: Check if the user is already logged in by looking for profile menu or login button.
+2025-06-07 22:45:59,277 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_start - Starting: Check if the user is already logged in by looking for profile menu or login button.
+[Screenshot] Taking screenshot: task_start
+2025-06-07 22:45:59,277 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_start
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:45:59,277 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_start
+2025-06-07 22:45:59,277 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_start
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 4
+2025-06-07 22:45:59,277 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 4
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:45:59,277 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:45:59,277 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:45:59,298 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+2025-06-07 22:45:59,380 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+Failed to capture screenshot for task_start: 'NoneType' object is not callable
+2025-06-07 22:45:59,389 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_start: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_start
+2025-06-07 22:45:59,389 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_start
+2025-06-07 22:45:59,946 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-07 22:46:01,135 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[BrowserNavAgent] LLM decided to use tools: False
+2025-06-07 22:46:01,138 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] LLM decided to use tools: False
+[BrowserNavAgent] Attempting screenshot: task_end - Completed: Check if the user is already logged in by looking for profile menu or login button.
+2025-06-07 22:46:01,138 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_end - Completed: Check if the user is already logged in by looking for profile menu or login button.
+[Screenshot] Taking screenshot: task_end
+2025-06-07 22:46:01,138 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_end
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:46:01,138 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_end
+2025-06-07 22:46:01,138 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_end
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 5
+2025-06-07 22:46:01,138 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 5
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:46:01,138 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:46:01,138 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:46:01,163 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+2025-06-07 22:46:01,247 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+Failed to capture screenshot for task_end: 'NoneType' object is not callable
+2025-06-07 22:46:01,261 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_end: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_end
+2025-06-07 22:46:01,261 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_end
+[BrowserNavAgent] Task completed: Check if the user is already logged in by looking for profile menu or login button.
+2025-06-07 22:46:01,261 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Task completed: Check if the user is already logged in by looking for profile menu or login button.
+[planner] Browser agent completed task
+2025-06-07 22:46:01,261 - jobber_fsm.utils.logger - INFO - [planner] Browser agent completed task
+[planner] Total completed tasks: 2
+2025-06-07 22:46:01,261 - jobber_fsm.utils.logger - INFO - [planner] Total completed tasks: 2
+[planner] Getting next step from LLM...
+2025-06-07 22:46:01,261 - jobber_fsm.utils.logger - INFO - [planner] Getting next step from LLM...
+2025-06-07 22:46:05,201 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[planner] Delegating task to browser agent: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+2025-06-07 22:46:05,204 - jobber_fsm.utils.logger - INFO - [planner] Delegating task to browser agent: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+[BrowserNavAgent] Starting task: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+2025-06-07 22:46:05,204 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Starting task: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+[BrowserNavAgent] Attempting screenshot: task_start - Starting: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+2025-06-07 22:46:05,204 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_start - Starting: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+[Screenshot] Taking screenshot: task_start
+2025-06-07 22:46:05,204 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_start
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:46:05,204 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_start
+2025-06-07 22:46:05,205 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_start
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 6
+2025-06-07 22:46:05,205 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 6
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:46:05,205 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:46:05,205 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:46:05,228 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+2025-06-07 22:46:05,308 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+Failed to capture screenshot for task_start: 'NoneType' object is not callable
+2025-06-07 22:46:05,319 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_start: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_start
+2025-06-07 22:46:05,319 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_start
+2025-06-07 22:46:06,085 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+Executing Get DOM Command based on content_type: text_only
+2025-06-07 22:46:06,087 - jobber_fsm.utils.logger - INFO - Executing Get DOM Command based on content_type: text_only
+Get DOM Command executed in 0.024932384490966797 seconds
+2025-06-07 22:46:06,112 - jobber_fsm.utils.logger - INFO - Get DOM Command executed in 0.024932384490966797 seconds
+2025-06-07 22:46:07,318 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[BrowserNavAgent] LLM decided to use tools: False
+2025-06-07 22:46:07,321 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] LLM decided to use tools: False
+[BrowserNavAgent] Attempting screenshot: task_end - Completed: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+2025-06-07 22:46:07,321 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Attempting screenshot: task_end - Completed: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+[Screenshot] Taking screenshot: task_end
+2025-06-07 22:46:07,321 - jobber_fsm.utils.logger - INFO - [Screenshot] Taking screenshot: task_end
+[Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:46:07,321 - jobber_fsm.utils.logger - INFO - [Screenshot] Current URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Attempting to capture screenshot: task_end
+2025-06-07 22:46:07,321 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Attempting to capture screenshot: task_end
+[ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 7
+2025-06-07 22:46:07,321 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Job ID: f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e, Count: 7
+[ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+2025-06-07 22:46:07,322 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Page URL: https://www.ziprecruiter.com/c/PricewaterhouseCoopers-Advisory-Services-LLC/Job/Product-Analyst-Senior-Associate/-in-Seattle,WA?jid=a15bd6282d4991ba
+[ScreenshotDebugger] Waiting for page to stabilize...
+2025-06-07 22:46:07,322 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Waiting for page to stabilize...
+[ScreenshotDebugger] Taking screenshot...
+2025-06-07 22:46:07,344 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Taking screenshot...
+[ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+2025-06-07 22:46:07,425 - jobber_fsm.utils.logger - INFO - [ScreenshotDebugger] Screenshot taken, size: 34453 bytes
+Failed to capture screenshot for task_end: 'NoneType' object is not callable
+2025-06-07 22:46:07,436 - jobber_fsm.utils.logger - ERROR - Failed to capture screenshot for task_end: 'NoneType' object is not callable
+[Screenshot] Failed to save: task_end
+2025-06-07 22:46:07,436 - jobber_fsm.utils.logger - WARNING - [Screenshot] Failed to save: task_end
+[BrowserNavAgent] Task completed: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+2025-06-07 22:46:07,437 - jobber_fsm.utils.logger - INFO - [BrowserNavAgent] Task completed: If not logged in, click on "Sign In" or "Login", then look for "Create Account" or "Sign Up" option.
+[planner] Browser agent completed task
+2025-06-07 22:46:07,437 - jobber_fsm.utils.logger - INFO - [planner] Browser agent completed task
+[planner] Total completed tasks: 3
+2025-06-07 22:46:07,437 - jobber_fsm.utils.logger - INFO - [planner] Total completed tasks: 3
+[planner] Getting next step from LLM...
+2025-06-07 22:46:07,437 - jobber_fsm.utils.logger - INFO - [planner] Getting next step from LLM...
+2025-06-07 22:46:10,151 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+[planner] Plan marked as complete!
+2025-06-07 22:46:10,162 - jobber_fsm.utils.logger - INFO - [planner] Plan marked as complete!
+Job application process completed
+2025-06-07 22:46:10,162 - jobber_fsm.utils.logger - INFO - Job application process completed
+Application completed successfully in 38.67 seconds. Details: The application process encountered a security verification step that cannot be automated. Manual intervention is required to proceed with the job application for the PricewaterhouseCoopers Advisory Services LLC position.
+2025-06-07 22:46:10,162 - jobber_fsm.utils.logger - INFO - Application completed successfully in 38.67 seconds. Details: The application process encountered a security verification step that cannot be automated. Manual intervention is required to proceed with the job application for the PricewaterhouseCoopers Advisory Services LLC position.
+Creating screenshot summary...
+2025-06-07 22:46:10,162 - jobber_fsm.utils.logger - INFO - Creating screenshot summary...
+Failed to create summary: you need a private key to sign credentials.the credentials you are currently using <class 'google.auth.compute_engine.credentials.Credentials'> just contains a token. see https://googleapis.dev/python/google-api-core/latest/auth.html#setting-up-a-service-account for more details.
+2025-06-07 22:46:12,913 - jobber_fsm.utils.logger - ERROR - Failed to create summary: you need a private key to sign credentials.the credentials you are currently using <class 'google.auth.compute_engine.credentials.Credentials'> just contains a token. see https://googleapis.dev/python/google-api-core/latest/auth.html#setting-up-a-service-account for more details.
+Storing success result...
+2025-06-07 22:46:12,913 - jobber_fsm.utils.logger - INFO - Storing success result...
+Stored result: completed for job f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+2025-06-07 22:46:14,579 - jobber_fsm.utils.logger - INFO - Stored result: completed for job f7389ed2-1b4f-41a6-8716-4fee36f12c2d-035cf37e
+Cleaned up temporary resume file
+2025-06-07 22:46:14,579 - jobber_fsm.utils.logger - INFO - Cleaned up temporary resume file
+Container called exit(0).

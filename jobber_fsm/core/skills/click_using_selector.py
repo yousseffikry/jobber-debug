@@ -1,6 +1,7 @@
 import asyncio
 import inspect
 import traceback
+import os
 from typing import Dict
 
 from playwright.async_api import ElementHandle, Page
@@ -25,7 +26,7 @@ async def click(
         float,
         "Optional wait time in seconds before executing the click event logic.",
         float,
-    ],
+    ] = 0.0,
 ) -> Annotated[str, "A message indicating success or failure of the click."]:
     """
     Executes a click action on the element matching the given query selector string within the currently open web page.
@@ -36,9 +37,15 @@ async def click(
     - wait_before_execution: Optional wait time in seconds before executing the click event logic. Defaults to 0.0 seconds.
 
     Returns:
-    - Success if the click was successful, Appropropriate error message otherwise.
+    - Success if the click was successful, Appropriate error message otherwise.
     """
-    logger.info(f'Executing ClickElement with "{selector}" as the selector')
+    logger.info(f'[CLICK] Attempting to click element with selector: {selector}')
+    logger.info(f'[CLICK] Wait time before execution: {wait_before_execution} seconds')
+
+    # Check if in dry-run mode
+    if os.getenv("DRY_RUN", "").lower() in {"1", "true", "yes"}:
+        logger.info(f"[dry-run] would click element with selector: {selector}")
+        return f"[dry-run] would click element with selector: {selector}"
 
     # Initialize PlaywrightManager and get the active browser page
     browser_manager = PlaywrightManager(browser_type="chromium", headless=False)
@@ -61,14 +68,12 @@ async def click(
 
     subscribe(detect_dom_changes)
     result = await do_click(page, selector, wait_before_execution)
+    logger.info(f'[CLICK] Result: {result["summary_message"]}')
     await asyncio.sleep(
         0.1
     )  # sleep for 100ms to allow the mutation observer to detect changes
     unsubscribe(detect_dom_changes)
     await browser_manager.take_screenshots(f"{function_name}_end", page)
-    # await browser_manager.notify_user(
-    #     result["summary_message"], message_type=MessageType.ACTION
-    # )
 
     if dom_changes_detected:
         return f"Success: {result['summary_message']}.\n As a consequence of this action, new elements have appeared in view: {dom_changes_detected}. This means that the action to click {selector} is not yet executed and needs further interaction. Get all_fields DOM to complete the interaction."
@@ -89,6 +94,13 @@ async def do_click(
     Returns:
     Dict[str,str] - Explanation of the outcome of this operation represented as a dictionary with 'summary_message' and 'detailed_message'.
     """
+    # Check if in dry-run mode (additional check for internal function)
+    if os.getenv("DRY_RUN", "").lower() in {"1", "true", "yes"}:
+        return {
+            "summary_message": f"[dry-run] would click {selector}",
+            "detailed_message": f"[dry-run] would click element with selector: {selector}"
+        }
+    
     logger.info(
         f'Executing ClickElement with "{selector}" as the selector. Wait time before execution: {wait_before_execution} seconds.'
     )
@@ -97,15 +109,20 @@ async def do_click(
     if wait_before_execution > 0:
         await asyncio.sleep(wait_before_execution)
 
-    # Wait for the selector to be present and ensure it's attached and visible. If timeout, try javascript click
+    # Add debugging to see page state
+    logger.info(f"[CLICK DEBUG] Current page URL: {page.url}")
+    logger.info(f"[CLICK DEBUG] Page title: {await page.title()}")
+    
+    # Wait for the selector to be present and ensure it's attached and visible
     try:
         logger.info(
             f'Executing ClickElement with "{selector}" as the selector. Waiting for the element to be attached and visible.'
         )
 
+        # Increase timeout from 5 seconds to 30 seconds for Cloud Run
         element = await asyncio.wait_for(
-            page.wait_for_selector(selector, state="attached", timeout=2000),
-            timeout=2000,
+            page.wait_for_selector(selector, state="attached", timeout=30000),
+            timeout=30.0,
         )
         if element is None:
             raise ValueError(f'Element with selector: "{selector}" not found')
@@ -125,7 +142,7 @@ async def do_click(
         try:
             await element.wait_for_element_state("visible", timeout=200)
             logger.info(
-                f'Executing ClickElement with "{selector}" as the selector. Element is attached and visibe. Clicking the element.'
+                f'Executing ClickElement with "{selector}" as the selector. Element is attached and visible. Clicking the element.'
             )
         except Exception:
             # If the element is not visible, try to click it anyway
@@ -145,7 +162,6 @@ async def do_click(
             parent_element = await element.evaluate_handle(
                 "element => element.parentNode"
             )
-            # await parent_element.evaluate(f"element => element.select_option(value=\"{element_value}\")")
             await parent_element.select_option(value=element_value)  # type: ignore
 
             logger.info(f'Select menu option "{element_value}" selected')
@@ -155,8 +171,6 @@ async def do_click(
                 "detailed_message": f'Select menu option "{element_value}" selected. The select element\'s outer HTML is: {element_outer_html}.',
             }
 
-        # Playwright click seems to fail more often than not, disabling it for now and just going with JS click
-        # await perform_playwright_click(element, selector)
         msg = await perform_javascript_click(page, selector)
         return {
             "summary_message": msg,
@@ -180,6 +194,10 @@ async def is_element_present(page: Page, selector: str) -> bool:
     Returns:
     - True if the element is present, False otherwise.
     """
+    if os.getenv("DRY_RUN", "").lower() in {"1", "true", "yes"}:
+        logger.info(f"[dry-run] would check if element {selector} is present")
+        return True  # Assume element is present in dry-run mode
+        
     element = await page.query_selector(selector)
     return element is not None
 
@@ -195,6 +213,10 @@ async def perform_playwright_click(element: ElementHandle, selector: str):
     Returns:
     - None
     """
+    if os.getenv("DRY_RUN", "").lower() in {"1", "true", "yes"}:
+        logger.info(f"[dry-run] would perform playwright click on {selector}")
+        return
+        
     logger.info(
         f"Performing first Step: Playwright Click on element with selector: {selector}"
     )
@@ -212,6 +234,10 @@ async def perform_javascript_click(page: Page, selector: str):
     Returns:
     - None
     """
+    if os.getenv("DRY_RUN", "").lower() in {"1", "true", "yes"}:
+        logger.info(f"[dry-run] would perform javascript click on {selector}")
+        return f"[dry-run] would execute JavaScript Click on element with selector: {selector}"
+        
     js_code = """(selector) => {
         let element = document.querySelector(selector);
 
@@ -245,7 +271,7 @@ async def perform_javascript_click(page: Page, selector: str):
             element.click();
             let ariaExpandedAfterClick = element.getAttribute('aria-expanded');
             if (ariaExpandedBeforeClick === 'false' && ariaExpandedAfterClick === 'true') {
-                return "Executed JavaScript Click on element with selector: "+selector +". Very important: As a consequence a menu has appeared where you may need to make further selction. Very important: Get all_fields DOM to complete the action.";
+                return "Executed JavaScript Click on element with selector: "+selector +". Very important: As a consequence a menu has appeared where you may need to make further selection. Very important: Get all_fields DOM to complete the action.";
             }
             return "Executed JavaScript Click on element with selector: "+selector;
         }
@@ -260,3 +286,4 @@ async def perform_javascript_click(page: Page, selector: str):
             f"Error executing JavaScript click on element with selector: {selector}. Error: {e}"
         )
         traceback.print_exc()
+        return f"Error executing JavaScript click: {e}"

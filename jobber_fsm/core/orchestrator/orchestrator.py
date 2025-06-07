@@ -18,6 +18,7 @@ from jobber_fsm.core.models.models import (
 from jobber_fsm.core.skills.get_screenshot import get_screenshot
 from jobber_fsm.core.skills.get_url import geturl
 from jobber_fsm.core.web_driver.playwright import PlaywrightManager
+from jobber_fsm.utils.logger import logger
 
 init(autoreset=True)
 
@@ -35,18 +36,40 @@ class Orchestrator:
     async def _bootstrap(self) -> None:
         """
         Bring the FSM + browser up **without** entering the interactive
-        input-loop.  Upstream Jobber calls the same thing from `start()`
-        before dropping into `while True: input(...)`.
+        input-loop.
         """
         if getattr(self, "_booted", False):
-            return                      # idempotent
+            return
 
-        # ---- create the Playwright manager + context -------------
+        logger.info("[Orchestrator] Starting bootstrap")
+        
+        # Get screenshot debugger from browser agent if available
+        screenshot_debugger = None
+        if State.BROWSE in self.state_to_agent_map:
+            browser_agent = self.state_to_agent_map[State.BROWSE]
+            screenshot_debugger = getattr(browser_agent, 'screenshot_debugger', None)
+        
+        # Pass screenshot debugger to PlaywrightManager
+        if screenshot_debugger:
+            self.playwright_manager.screenshot_debugger = screenshot_debugger
+            logger.info("[Orchestrator] Screenshot debugger attached to PlaywrightManager")
+        
+        # Initialize PlaywrightManager
+        logger.info("[Orchestrator] About to initialize PlaywrightManager")
         await self.playwright_manager.async_initialize(eval_mode=False)
+        logger.info("[Orchestrator] PlaywrightManager initialized successfully")
 
-        # ---- whatever the original `start()` does *before* the REPL
+        # Add navigation to homepage after initialization
+        try:
+            page = await self.playwright_manager.get_current_page()
+            logger.info(f"[Orchestrator] Current page URL after init: {page.url}")
+        except Exception as e:
+            logger.error(f"[Orchestrator] Error getting current page: {e}")
+
         self.current_state = list(self.state_to_agent_map.keys())[0]
         self._booted = True
+        logger.info("[Orchestrator] Bootstrap completed")
+
 
     async def start(self):
         print("Starting orchestrator")
@@ -111,6 +134,8 @@ class Orchestrator:
 
     async def _handle_state(self):
         current_state = self.memory.current_state
+        logger.info(f"[Orchestrator] Handling state: {current_state}")
+        logger.info(f"[Orchestrator] Current objective: {self.memory.objective}")
 
         if current_state not in self.state_to_agent_map:
             raise ValueError(f"Unhandled state! No agent for {current_state}")

@@ -44,23 +44,31 @@ class PlaywrightManager:
     ):
         """
         Initializes the PlaywrightManager with the specified browser type and headless mode.
-        Initialization occurs only once due to the singleton pattern.
-
-        Args:
-            browser_type (str, optional): The type of browser to use. Defaults to "chromium".
-            headless (bool, optional): Flag to launch the browser in headless mode or not. Defaults to False (non-headless).
         """
         if self.__initialized:
             return
+        
+        # Detect cloud environment IMMEDIATELY
+        import os
+        is_cloud_run = (
+            os.getenv('K_SERVICE') is not None or
+            os.getenv('K_REVISION') is not None or
+            os.getenv('CLOUD_RUN_JOB') is not None or
+            os.getenv('GOOGLE_CLOUD_PROJECT') is not None or
+            os.path.exists('/.dockerenv')
+        )
+        
+        # Force headless in cloud
+        if is_cloud_run:
+            headless = True
+            logger.info("[PlaywrightManager] Detected cloud environment in __init__ - forcing headless mode")
+        
         self.browser_type = browser_type
         self.isheadless = headless
         self.__initialized = True
-        # self.notification_manager = NotificationManager()
-        # self.user_response_event = asyncio.Event()
-        # if gui_input_mode:
-        #     self.ui_manager: UIManager = UIManager()
         self.set_take_screenshots(take_screenshots)
         self.set_screenshots_dir(screenshots_dir)
+
 
     async def async_initialize(self, eval_mode: bool = False):
         """
@@ -69,18 +77,22 @@ class PlaywrightManager:
         if self.__async_initialize_done:
             return
 
+        logger.info("[PlaywrightManager] Starting async_initialize")
+
         # Step 1: Ensure Playwright is started and browser context is created
         await self.start_playwright()
         self.eval_mode = eval_mode
         await self.ensure_browser_context()
 
-        # Step 2: Deferred setup of handlers
+        # Step 2: Deferred setup of handlers (commented out in your code)
         # await self.setup_handlers()
 
         # Step 3: Navigate to homepage
+        logger.info("[PlaywrightManager] About to navigate to homepage")
         await self.go_to_homepage()
 
         self.__async_initialize_done = True
+        logger.info("[PlaywrightManager] async_initialize completed")
 
     async def ensure_browser_context(self):
         """
@@ -119,53 +131,23 @@ class PlaywrightManager:
             PlaywrightManager._playwright = None  # type: ignore
 
     async def create_browser_context(self):
-        # load_dotenv()
-        # user_data_dir: str = os.environ["BROWSER_USER_DATA_DIR"]
-        # profile_directory: str = os.environ["BROWSER_PROFILE"]
-        # print("Browser profile", user_data_dir)
-        # logger.info("Browser Profile - " + user_data_dir + profile_directory)
+        import os
+        
+        # Detect if running in Cloud Run/cloud environment
+        is_cloud_run = (
+            os.getenv('K_SERVICE') is not None or
+            os.getenv('K_REVISION') is not None or
+            os.getenv('CLOUD_RUN_JOB') is not None or
+            os.getenv('GOOGLE_CLOUD_PROJECT') is not None or
+            os.path.exists('/.dockerenv')
+        )
+        
+        # Override: always use headless in cloud/docker
+        if is_cloud_run:
+            self.isheadless = True
+            logger.info("[PlaywrightManager] Detected cloud/container environment - forcing headless mode")
+        
         try:
-            # PlaywrightManager._browser_context = (
-            #     await PlaywrightManager._playwright.chromium.launch_persistent_context(
-            #         user_data_dir=user_data_dir,
-            #         channel="chrome",
-            #         headless=self.isheadless,
-            #         args=[
-            #             f"--profile-directory={profile_directory}",
-            #             "--disable-session-crashed-bubble",
-            #             "--disable-infobars",
-            #             "--no-default-browser-check",
-            #             "--no-first-run",
-            #             "--disable-popup-blocking",
-            #             "--disable-notifications",
-            #             "--disable-features=ChromeWhatsNewUI",
-            #             "--disable-blink-features=AutomationControlled",
-            #             "--disable-gpu",
-            #             "--no-sandbox",
-            #             "--disable-dev-shm-usage",
-            #             "--no-first-run",
-            #             "--no-zygote",
-            #             "--ignore-certificate-errors",
-            #             "--disable-popup-blocking",
-            #             "--remote-debugging-port=9222",
-            #             "--restore-last-session",
-            #         ],
-            #         ignore_default_args=["--enable-automation", "--bwsi"],
-            #         no_viewport=True,
-            #     )
-            # )
-
-            # await PlaywrightManager._playwright.chromium.launch_persistent_context(
-            #     user_data_dir=user_data_dir,
-            #     channel="chrome",
-            #     headless=False,
-            #     args=[
-            #         f"--profile-directory={profile_directory}",
-            #         "--remote-debugging-port=9224",
-            #     ],
-            #     no_viewport=True,
-            # )
-
             # in eval mode - start a temp browser.
             if self.eval_mode:
                 print("Starting in eval mode", self.eval_mode)
@@ -179,64 +161,139 @@ class PlaywrightManager:
                     headless=self.isheadless,
                     args=[
                         "--disable-blink-features=AutomationControlled",
-                        "--disable-session-crashed-bubble",  # disable the restore session bubble
-                        "--disable-infobars",  # disable informational popups,
+                        "--disable-session-crashed-bubble",
+                        "--disable-infobars",
                     ],
                     no_viewport=True,
                 )
             else:
-                try:
-                    # Attempt to reuse a locally-running Chrome started with
-                    # --remote-debugging-port=9222
-                    browser = (
-                        await PlaywrightManager._playwright.chromium.connect_over_cdp(
-                            "http://localhost:9222", timeout=3_000
+                # Skip Chrome Canary connection attempt in cloud/docker
+                if not is_cloud_run:
+                    try:
+                        # Attempt to reuse a locally-running Chrome started with
+                        # --remote-debugging-port=9223 (for Chrome Canary)
+                        print("[PlaywrightManager] Attempting to connect to Chrome Canary on port 9223...")
+                        browser = await PlaywrightManager._playwright.chromium.connect_over_cdp(
+                            "http://localhost:9223", timeout=5_000
                         )
-                    )
-                    PlaywrightManager._browser_context = browser.contexts[0]
-                except Exception:
-                    # Port 9222 not listening — launch our own headless instance
+                        PlaywrightManager._browser_context = browser.contexts[0]
+                        print(f"[PlaywrightManager] Connected! Found {len(browser.contexts)} contexts")
+                        
+                        # Navigate to current page to verify connection
+                        pages = PlaywrightManager._browser_context.pages
+                        if pages:
+                            print(f"[PlaywrightManager] Current page URL: {pages[0].url}")
+                        else:
+                            print("[PlaywrightManager] No pages found, will create one")
+                        return  # Exit early if connection successful
+                            
+                    except Exception as e:
+                        print(f"[PlaywrightManager] Failed to connect to Chrome on 9223: {e}")
+                
+                # Launch browser instance (always for Cloud Run, fallback for local)
+                logger.info(f"[PlaywrightManager] About to launch browser...")
+                logger.info(f"  Cloud/Docker: {is_cloud_run}")
+                logger.info(f"  Headless: {self.isheadless}")
+                playwright_version = "Unknown"
+                if PlaywrightManager._playwright:
+                    try:
+                        # Different ways to try to get the version
+                        if hasattr(PlaywrightManager._playwright, '__version__'):
+                            playwright_version = PlaywrightManager._playwright.__version__
+                        elif hasattr(PlaywrightManager._playwright, '_impl_obj'):
+                            impl = PlaywrightManager._playwright._impl_obj
+                            if hasattr(impl, '_playwright_version'):
+                                playwright_version = impl._playwright_version
+                    except:
+                        pass
+                logger.info(f"  Playwright version: {playwright_version}")
+
+                
+                # Check if chrome binary exists
+                import subprocess
+                try:
+                    # Try to find chrome executable
+                    result = subprocess.run(['which', 'chromium'], capture_output=True, text=True)
+                    logger.info(f"  which chromium: {result.stdout.strip() if result.returncode == 0 else 'Not found'}")
+                    
+                    # Check playwright browsers
+                    result = subprocess.run(['playwright', 'show-browsers'], capture_output=True, text=True)
+                    logger.info(f"  Playwright browsers: {result.stdout}")
+                except Exception as e:
+                    logger.error(f"  Error checking browsers: {e}")
+                
+                # Use chromium channel in cloud, chrome locally
+                channel = None if is_cloud_run else "chrome"
+                
+                logger.info(f"[PlaywrightManager] Launching with channel={channel}")
+                
+                try:
                     browser = await PlaywrightManager._playwright.chromium.launch(
-                        headless=True,
-                        args=["--no-sandbox"],
+                        headless=self.isheadless,
+                        channel=channel,
+                        args=[
+                            "--no-sandbox",
+                            "--disable-dev-shm-usage",
+                            "--disable-gpu",
+                            "--disable-web-security",
+                            "--disable-features=IsolateOrigins,site-per-process",
+                            "--disable-blink-features=AutomationControlled",
+                            "--single-process",
+                            "--disable-setuid-sandbox"
+                        ],
                     )
+                    logger.info("[PlaywrightManager] Browser launched successfully")
+                    
                     PlaywrightManager._browser_context = await browser.new_context(
-                        no_viewport=True
+                        no_viewport=True,
+                        user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
                     )
+                    logger.info("[PlaywrightManager] Browser context created successfully")
+                    
+                except Exception as e:
+                    logger.error(f"[PlaywrightManager] Failed to launch browser: {e}")
+                    logger.error(f"[PlaywrightManager] Error type: {type(e).__name__}")
+                    logger.error(f"[PlaywrightManager] Full error: {str(e)}")
+                    import traceback
+                    logger.error(f"[PlaywrightManager] Traceback:\n{traceback.format_exc()}")
+                    raise
 
             # Additional step to modify the navigator.webdriver property
             pages = PlaywrightManager._browser_context.pages
             for page in pages:
-                # await stealth_async(page)  # Apply stealth to each page
                 await page.add_init_script("""
                     Object.defineProperty(navigator, 'webdriver', {
                         get: () => undefined
                     })
                 """)
+            
+            logger.info("[PlaywrightManager] Browser setup completed successfully")
 
         except Exception as e:
+            logger.error(f"[PlaywrightManager] Browser launch error: {str(e)}")
+            logger.error(f"[PlaywrightManager] Error details: {type(e).__name__}")
+            
             if "Target page, context or browser has been closed" in str(e):
                 new_user_dir = tempfile.mkdtemp()
-                # logger.error(
-                #     f"Failed to launch persistent context with user data dir {user_data_dir}: {e} Trying to launch with a new user dir {new_user_dir}"
-                # )
                 logger.error(
                     f"Failed to launch persistent context with provided user data dir: {e} Trying to launch with a new user dir {new_user_dir}"
                 )
+                
                 PlaywrightManager._browser_context = await PlaywrightManager._playwright.chromium.launch_persistent_context(
                     new_user_dir,
-                    channel="chrome",
+                    channel=None if is_cloud_run else "chrome",
                     headless=self.isheadless,
                     args=[
                         "--disable-blink-features=AutomationControlled",
-                        "--disable-session-crashed-bubble",  # disable the restore session bubble
-                        "--disable-infobars",  # disable informational popups,
+                        "--disable-session-crashed-bubble",
+                        "--disable-infobars",
+                        "--no-sandbox",
+                        "--disable-dev-shm-usage",
+                        "--single-process",
+                        "--disable-setuid-sandbox"
                     ],
                     no_viewport=True,
                 )
-                # # Apply stealth to the new context
-                # for page in PlaywrightManager._browser_context.pages:
-                #     await stealth_async(page)
             elif "Chromium distribution 'chrome' is not found " in str(e):
                 raise ValueError(
                     "Chrome is not installed on this device. Install Google Chrome or install playwright using 'playwright install chrome'. Refer to the readme for more information."
@@ -321,15 +378,18 @@ class PlaywrightManager:
     async def go_to_homepage(self):
         page: Page = await PlaywrightManager.get_current_page(self)
         try:
-            await page.goto(self._homepage, timeout=10000)  # 10 seconds timeout
+            logger.info(f"[PlaywrightManager] Navigating to homepage: {self._homepage}")
+            await page.goto(self._homepage, timeout=30000)  # 30 seconds timeout
+            logger.info(f"[PlaywrightManager] Successfully navigated to: {page.url}")
         except Exception as e:
             logger.error(f"Failed to navigate to homepage: {e}")
-            # implement a retry mechanism here
-        try:
-            await page.goto(self._homepage, timeout=10000)  # 10 seconds timeout
-        except Exception as e:
-            logger.error(f"Failed to navigate to homepage: {e}")
-            # implement a retry mechanism here
+            # Try again with a longer timeout
+            try:
+                await page.goto(self._homepage, timeout=60000)  # 60 seconds timeout
+                logger.info(f"[PlaywrightManager] Navigated to homepage on retry")
+            except Exception as e2:
+                logger.error(f"Failed to navigate to homepage on retry: {e2}")
+                # Continue anyway - the page might still be usable
 
     async def set_navigation_handler(self):
         page: Page = await PlaywrightManager.get_current_page(self)

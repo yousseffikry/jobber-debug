@@ -1,13 +1,12 @@
-# jobber_fsm/core/agent/browser_nav_agent.py
 from __future__ import annotations
+import json
 
-from typing import Any, List, Tuple, Callable
+from typing import List, Tuple, Callable
 
 from jobber_fsm.core.agent.base import BaseAgent
 from jobber_fsm.core.models.models import BrowserNavInput, BrowserNavOutput
 from jobber_fsm.core.prompts import LLM_PROMPTS
 from jobber_fsm.utils.logger import logger
-
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Skills / tools you already had
@@ -26,6 +25,10 @@ from jobber_fsm.core.skills.get_url import geturl
 from jobber_fsm.core.skills.press_key_combination import press_key_combination
 from jobber_fsm.core.skills.pdf_text_extractor import extract_text_from_pdf
 from jobber_fsm.core.skills.upload_file import upload_file
+from jobber_fsm.core.skills.check_login_status import check_login_status
+
+from jobber_fsm.core.memory.credentials import get_credentials, save_credentials, get_default_password
+
 from jobber_fsm.core.models.models import Task
 from itertools import count
 
@@ -56,6 +59,7 @@ class BrowserNavAgent(BaseAgent):
     def __init__(self, planner, *, auto_mode: bool = False) -> None:
         self.planner = planner
         self.auto_mode = auto_mode
+        self.screenshot_debugger = None  # Will be set by cloud_job_runner
 
         super().__init__(
             name="executor",
@@ -63,29 +67,113 @@ class BrowserNavAgent(BaseAgent):
             input_format=BrowserNavInput,
             output_format=BrowserNavOutput,
             keep_message_history=auto_mode,
-            tools=self._tool_specs(),  # ← same list you had before
+            tools=self._tool_specs(),
         )
 
     # ------------------------------------------------------------------ #
     # public entry-point – called by PlannerAgent
     # ------------------------------------------------------------------ #
     async def process_query(self, task_text: str) -> BrowserNavOutput:
+        logger.info(f"[BrowserNavAgent] Starting task: {task_text}")
         logger.debug("BrowserNavAgent: executing task -> %s", task_text)
+
+        # Helper function to take screenshots
+        async def take_screenshot(name: str, description: str):
+            logger.info(f"[BrowserNavAgent] Attempting screenshot: {name} - {description}")
+            if self.screenshot_debugger:
+                try:
+                    from jobber_fsm.core.web_driver.playwright import PlaywrightManager
+                    browser_manager = PlaywrightManager()
+                    page = await browser_manager.get_current_page()
+                    if page:
+                        logger.info(f"[Screenshot] Taking screenshot: {name}")
+                        logger.info(f"[Screenshot] Current URL: {page.url}")
+                        path = await self.screenshot_debugger.capture(page, name, description)
+                        if path:
+                            logger.info(f"[Screenshot] Saved successfully: {path}")
+                        else:
+                            logger.warning(f"[Screenshot] Failed to save: {name}")
+                    else:
+                        logger.warning("[Screenshot] No page available")
+                except Exception as e:
+                    logger.error(f"[Screenshot] Error: {e}", exc_info=True)
+            else:
+                logger.warning("[BrowserNavAgent] No screenshot debugger available!")
+
+        # Take pre-task screenshot
+        await take_screenshot(f"task_start", f"Starting: {task_text}")
 
         llm_reply: BrowserNavOutput = await self.run(
             BrowserNavInput(task=_mk_task(task_text))
         )
 
-        if llm_reply.content is None:
-            llm_reply.content = f"[dry-run] would execute: {task_text}"
+        logger.info(f"[BrowserNavAgent] LLM decided to use tools: {getattr(llm_reply, 'tool_calls', None) is not None}")
 
-        #
-        # TODO – map llm_reply.content to real Playwright actions and
-        #        perform them; for now we just log in dry-run style.
-        #
-        logger.info("[dry-run] would perform ⇒ %s", llm_reply.model_dump_json(indent=2))
+        if getattr(llm_reply, "tool_calls", None):
+            for i, call in enumerate(llm_reply.tool_calls):
+                logger.info(f"[BrowserNavAgent] Executing tool {i+1}: {call.function.name}")
+                # Take pre-tool screenshot
+                await take_screenshot(f"before_{call.function.name}_{i}", f"Before {call.function.name}")
+                
+                msg = await self._apply_tool(call)
+                logger.info(f"[BrowserNavAgent] Tool result: {call.function.name} → {msg}")
+                
+                # Take post-tool screenshot
+                await take_screenshot(f"after_{call.function.name}_{i}", f"Result: {msg[:100]}")
 
+        # Take post-task screenshot
+        await take_screenshot(f"task_end", f"Completed: {task_text}")
+
+        logger.info(f"[BrowserNavAgent] Task completed: {task_text}")
         return llm_reply
+    
+    async def check_for_security_page(page) -> bool:
+        """Check if we're on a security/verification page"""
+        try:
+            url = page.url.lower()
+            title = await page.title()
+            
+            # Common indicators of security pages
+            security_indicators = [
+                'security-check',
+                'verify',
+                'captcha',
+                'challenge',
+                'bot-check',
+                'human-check',
+                'access-denied'
+            ]
+            
+            # Check URL and title
+            for indicator in security_indicators:
+                if indicator in url or indicator in title.lower():
+                    return True
+                    
+            # Check page content
+            try:
+                content = await page.content()
+                if any(phrase in content.lower() for phrase in [
+                    'verify you are human',
+                    'security check',
+                    'captcha',
+                    'cloudflare',
+                    'checking your browser'
+                ]):
+                    return True
+            except:
+                pass
+                
+            return False
+        except Exception as e:
+            logger.error(f"Error checking for security page: {e}")
+            return False
+    
+    async def _apply_tool(self, tool_call) -> str:
+        """Given one `tool_call` from the LLM, invoke the matching skill."""
+        fn_name = tool_call.function.name
+        args    = json.loads(tool_call.function.arguments)
+        func    = self.executable_functions_list[fn_name]
+        return await func(**args)
 
     # ------------------------------------------------------------------ #
     # internal helpers
@@ -103,4 +191,5 @@ class BrowserNavAgent(BaseAgent):
             (press_key_combination,      LLM_PROMPTS["PRESS_KEY_COMBINATION_PROMPT"]),
             (extract_text_from_pdf,      LLM_PROMPTS["EXTRACT_TEXT_FROM_PDF_PROMPT"]),
             (upload_file,                LLM_PROMPTS["UPLOAD_FILE_PROMPT"]),
+            (check_login_status,         "Check if the user is currently logged into the website by looking for login/logout indicators"),
         ]

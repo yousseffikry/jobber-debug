@@ -25,10 +25,12 @@ async def openurl(
     Returns:
     - URL of the new page.
     """
-    logger.info(f"Opening URL: {url}")
+    logger.info(f"[NAVIGATION] Opening URL: {url}")
+    logger.info(f"[NAVIGATION] Timeout: {timeout} seconds")
     browser_manager = PlaywrightManager(browser_type="chromium", headless=False)
     await browser_manager.get_browser_context()
     page = await browser_manager.get_current_page()
+    
     # Navigate to the URL with a short timeout to ensure the initial load starts
     function_name = inspect.currentframe().f_code.co_name  # type: ignore
     try:
@@ -44,14 +46,28 @@ async def openurl(
         traceback.print_exc()
 
     await browser_manager.take_screenshots(f"{function_name}_end", page)
+    
+    # Take debug screenshot if debugger is available
+    if hasattr(browser_manager, 'screenshot_debugger') and browser_manager.screenshot_debugger:
+        try:
+            await browser_manager.screenshot_debugger.capture(
+                page, 
+                f"opened_url",
+                f"Navigated to {url}"
+            )
+        except Exception as e:
+            logger.error(f"Failed to capture screenshot: {e}")
 
-    # await browser_manager.notify_user(
-    #     f"Opened URL: {url}", message_type=MessageType.ACTION
-    # )
+
     # Get the page title
     title = await page.title()
-    url = page.url
-    return f"Page loaded: {url}, Title: {title}"  # type: ignore
+    final_url = page.url
+    logger.info(f"[NAVIGATION] Successfully loaded page")
+    logger.info(f"[NAVIGATION] Final URL: {final_url}")
+    logger.info(f"[NAVIGATION] Page title: {title}")
+    
+    return f"Page loaded: {final_url}, Title: {title}"
+
 
 
 def ensure_protocol(url: str) -> str:

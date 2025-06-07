@@ -121,18 +121,11 @@ async def entertext(
         - If 'use_keyboard_fill' is set to True, the function uses the 'page.keyboard.type' method to enter the text.
         - If 'use_keyboard_fill' is set to False, the function uses the 'custom_fill_element' method to enter the text.
     """
-    logger.info(f"Entering text: {entry}")
-
-    if isinstance(entry, dict):
-        query_selector: str = entry["query_selector"]
-        text_to_enter: str = entry["text"]
-    elif isinstance(entry, EnterTextEntry):
-        query_selector: str = entry.query_selector
-        text_to_enter: str = entry.text
-    else:
-        raise ValueError(
-            "Invalid input type for 'entry'. Expected EnterTextEntry or dict."
-        )
+    query_selector = entry.query_selector if hasattr(entry, 'query_selector') else entry["query_selector"]
+    text_to_enter = entry.text if hasattr(entry, 'text') else entry["text"]
+    
+    logger.info(f"[TEXT_ENTRY] Entering text into selector: {query_selector}")
+    logger.info(f"[TEXT_ENTRY] Text to enter: {text_to_enter[:50]}..." if len(text_to_enter) > 50 else f"[TEXT_ENTRY] Text to enter: {text_to_enter}")
 
     if not isinstance(query_selector, str) or not isinstance(text_to_enter, str):
         raise ValueError("query_selector and text must be strings")
